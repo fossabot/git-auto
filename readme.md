@@ -3,7 +3,7 @@
 
 ## usage
 in order for us to get started with git auto, we must simply install it (via
-some not yet defined process) and run:
+some currently undefined process) and run:
 
 ```
 > git auto init
@@ -13,7 +13,7 @@ now we have git auto all setup! the only left to do is add tests which git
 auto will use to automagically create releases on the master branch. first we
 must create a script to act as our fake test:
 
-####test_example.sh
+**build_script.sh**
 ```
 #! bin/sh
 
@@ -24,10 +24,10 @@ exit 0
 
 next we must register the test with git auto by creating a configuration file:
 
-####git-auto.yaml
+**git-auto.yaml**
 ```
 tests:
-  build: ./test_example.sh
+  project_built: ./build_script.sh
 ```
 
 every time we commit git auto will run our tests and create a new release on
@@ -45,14 +45,20 @@ now, let's test it out by making a commit on develop:
 > touch readme.md
 > git add readme.md
 > git commit -m "add readme"
-> git auto test run
-build successful
+...
+
+running "git auto tests run"...
+
+project_built:
+  build successful
+
+project_built passed
 
 1 tests passed, 0 tests failed
 updating test tags:
-  build -> ac56f0b
+  project_built -> ac56f0b
 incrementing release to 0.0.1:
-  develop -> master
+  merge develop -> master
 ```
 
 and we've just successfully used git auto! \\(:D)/ ..but there's much more to
@@ -61,9 +67,10 @@ discover the true power of git auto. until next time..
 
 
 ## purpose
-
+i love git flow, but i'm too lazy to justify the use it.
 
 ## documentation
+coming soon...
 
 
 ## license
