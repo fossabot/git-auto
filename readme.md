@@ -3,21 +3,21 @@
 
 ## usage
 in order for us to get started with git auto, we must simply install it (via
-some currently undefined process) and run:
+some currently undefined process), create a new directory, and run:
 
 ```
-> git auto init
+git auto init
 ```
 
 now we have git auto all setup! the only left to do is add tests which git
 auto will use to automagically create releases on the master branch. first we
 must create a script to act as our fake test:
 
-**build_script.sh**
+**test_example.sh**
 ```
 #! bin/sh
 
-echo "build successful"
+echo "test was successful"
 
 exit 0
 ```
@@ -27,7 +27,7 @@ next we must register the test with git auto by creating a configuration file:
 **git-auto.yaml**
 ```
 tests:
-  project_built: ./build_script.sh
+  example: ./test_example.sh
 ```
 
 every time we commit git auto will run our tests and create a new release on
@@ -42,22 +42,24 @@ git auto will only create a release if all tests pass on a single commit
 now, let's test it out by making a commit on develop:
 
 ```
-> touch readme.md
-> git add readme.md
-> git commit -m "add readme"
+git checkout develop
+touch readme.md
+git add readme.md
+git commit --message="add readme"
 ...
 
-running "git auto tests run"...
+execute "git auto test run all":
+  test_example:
+    test was successful
 
-project_built:
-  build successful
+  test_example passed
 
-project_built passed
+  1 tests passed, 0 tests failed
 
-1 tests passed, 0 tests failed
-updating test tags:
-  project_built -> ac56f0b
-incrementing release to 0.0.1:
+update test tags:
+  test_example -> ac56f0b
+
+increment release to 0.0.1:
   merge develop -> master
 ```
 
@@ -67,10 +69,45 @@ discover the true power of git auto. until next time..
 
 
 ## purpose
-i love git flow, but i'm too lazy to justify the use it.
+i love git flow, however i'm much too lazy to justify the use it. and thus, git
+auto was born!
+
 
 ## documentation
-coming soon...
+### features
+```
+git auto feature start <optional branch name>
+git auto feature finish <optional branch name, else current branch if feature>
+git auto feature publish <optional branch name, else current branch if feature>
+```
+
+
+### versioning
+```
+git auto version bump minor <reason for version bump>
+git auto version bump major <reason for version bump>
+```
+
+
+### tests
+#### test failure history
+```
+git auto test show <optional test name, else all>
+# example output:
+#   tag:          unit tests
+#   commit:   hash..
+#   blame:     hash..
+#   cause:     message of the commit where the test failed
+```
+
+
+
+### patches
+```
+git auto patch start <optional version tag to patch, else most recent version tag>
+git auto patch finish <optional branch name, else current branch if patch>
+```
+
 
 
 ## license
