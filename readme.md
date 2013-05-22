@@ -10,8 +10,8 @@ git auto init
 ```
 
 now we have git auto all setup! the only left to do is add tests which git
-auto will use to automagically create releases on the master branch. first we
-must create a script to act as our fake test:
+auto will use to automagically create releases on the release branch. first
+we must create a script to act as our fake test:
 
 **test_example.sh**
 ```
@@ -31,18 +31,15 @@ tests:
 ```
 
 every time we commit git auto will run our tests and create a new release on
-the master branch if they all exited successfully. it will also create a tag
-for each test on the develop branch and update those tags to the last commit
-each of them passed on. that way you know what commit started the failure of a
-particular test.
+the release branch if they all exited successfully. it will also create a tag
+for each test and update those tags to the last commit each of them passed on.
+that way you know what commit started the failure of a particular test.
 
-git auto will only create a release if all tests pass on a single commit
-(there are plans to make it configurable in the future).
+git auto will only create a release if all tests pass on a single commit.
 
-now, let's test it out by making a commit on develop:
+now, let's test it out by making a commit:
 
 ```
-git checkout develop
 touch readme.md
 git add readme.md
 git commit --message="add readme"
@@ -60,7 +57,7 @@ update test tags:
   test_example -> ac56f0b
 
 increment release to 0.0.1:
-  merge develop -> master
+  merge master -> release
 ```
 
 and we've just successfully used git auto! \\(:D)/ ..but there's much more to
@@ -94,10 +91,10 @@ git auto version bump major <reason for version bump>
 ```
 git auto test show <optional test name, else all>
 # example output:
-#   tag:          unit tests
-#   commit:   hash..
-#   blame:     hash..
-#   cause:     message of the commit where the test failed
+#   tag:     unit tests
+#   commit:  hash..
+#   blame:   hash..
+#   cause:   message of the commit where the test failed
 ```
 
 
