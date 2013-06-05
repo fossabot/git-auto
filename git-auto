@@ -1,0 +1,26 @@
+#! /bin/sh
+
+
+## functions
+usage() {
+  echo -e "usage: git auto <command>"
+  echo -e "\nwhere available options for <command> are:"
+  echo -e "  feature\tstart, finish, or publish feature branch"
+  echo -e "  init\t\tinitialize repository to be compatible with git auto"
+  echo -e "  patch\t\tstart, finish, or publish patch on existing release"
+  echo -e "  test\t\trun or show status of tests"
+  echo -e "  version\tmanually manage release versions"
+  echo -e "\nfor more command details run 'git auto <command> help'"
+}
+
+
+## main
+option=$1
+shift
+
+case $option in
+  feature|init|patch|test|version)
+    ./$option $@ ;;
+  *)
+    usage ;;
+esac

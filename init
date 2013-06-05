@@ -1,0 +1,7 @@
+#! /bin/sh
+
+
+echo "run $(basename $0) with arguments $@"
+# todo: create release branch
+# todo: create initial release
+# todo: create example test configuration if none exist
