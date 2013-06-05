@@ -6,6 +6,8 @@
 #
 finish() {
   branch="feature/$1"
+
+  # merge into master
   git checkout -q master
   git merge -q --no-ff "$branch"
   git branch -qd "$branch"
@@ -37,9 +39,10 @@ usage() {
 option=$1
 shift
 
+# parse command line options
 case $option in
   finish)  finish $@  ;;
   publish) publish $@ ;;
   start)   start $@   ;;
-  *)       usage              ;;
+  *)       usage      ;;
 esac

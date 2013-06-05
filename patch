@@ -9,9 +9,18 @@ set -e
 finish() {
   branch=$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p")
   version=$(echo $branch | sed "s/patch\///")
+
+  # merge into release
   git checkout -q release
   git merge -q --no-ff "$branch"
-  git tag -a $version
+
+  # add tag if nonexistant
+  if test "$(git tag -l | grep $version)" != $version
+  then
+    git tag -a $version
+  fi
+
+  # merge into master
   git checkout -q master
   git merge -q --no-ff "$branch"
   git branch -qd "$branch"
@@ -29,6 +38,8 @@ start() {
   major=$(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")
   minor=$(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p")
   version="$major.$(($minor + 1)).0"
+
+  # create minor version incremented patch
   git checkout -qb "patch/$version" release
 }
 
@@ -48,6 +59,7 @@ usage() {
 option=$1
 shift
 
+# parse command line options
 case $option in
   finish)  finish $@  ;;
   publish) publish $@ ;;

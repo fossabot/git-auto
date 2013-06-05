@@ -18,6 +18,7 @@ usage() {
 option=$1
 shift
 
+# parse command line options
 case $option in
   feature|init|patch|test|version) ./$option $@ ;;
   *)                               usage        ;;

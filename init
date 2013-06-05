@@ -2,10 +2,13 @@
 
 
 ## main
+# initialize repository
 git init -q
 touch git-auto.yaml
 git add git-auto.yaml
 git commit -qm "incept repository"
+
+# create branch for releases
 git checkout -qb release master
 git tag -a 0.0.0 -m "incept release versioning"
 git checkout -q master
