@@ -73,9 +73,9 @@ auto was born!
 ## documentation
 ### features
 ```
-git auto feature start <optional branch name>
-git auto feature finish <optional branch name, else current branch if feature>
-git auto feature publish <optional branch name, else current branch if feature>
+git auto feature start <branch name>
+git auto feature finish <branch name>
+git auto feature publish <branch name>
 ```
 
 
@@ -91,7 +91,7 @@ git auto version bump major <reason for version bump>
 ```
 git auto test show <optional test name, else all>
 # example output:
-#   tag:     unit tests
+#   tag:     test_unit
 #   commit:  hash..
 #   blame:   hash..
 #   cause:   message of the commit where the test failed
@@ -101,8 +101,8 @@ git auto test show <optional test name, else all>
 
 ### patches
 ```
-git auto patch start <optional version tag to patch, else most recent version tag>
-git auto patch finish <optional branch name, else current branch if patch>
+git auto patch start
+git auto patch finish
 ```
 
 

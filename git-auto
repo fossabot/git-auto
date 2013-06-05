@@ -19,8 +19,6 @@ option=$1
 shift
 
 case $option in
-  feature|init|patch|test|version)
-    ./$option $@ ;;
-  *)
-    usage ;;
+  feature|init|patch|test|version) ./$option $@ ;;
+  *)                               usage        ;;
 esac

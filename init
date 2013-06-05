@@ -1,7 +1,11 @@
 #! /bin/sh
 
 
-echo "run $(basename $0) with arguments $@"
-# todo: create release branch
-# todo: create initial release
-# todo: create example test configuration if none exist
+## main
+git init -q
+touch git-auto.yaml
+git add git-auto.yaml
+git commit -qm "incept repository"
+git checkout -qb release master
+git tag -a 0.0.0 -m "incept release versioning"
+git checkout -q master
