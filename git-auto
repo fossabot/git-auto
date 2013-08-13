@@ -3,9 +3,6 @@
 # set root directory
 root=$(readlink -f $0 | xargs dirname)
 
-# import common functions
-source $root/common
-
 # usage prints the command line usage instructions
 usage() {
   log_info "usage: git auto <command>"
@@ -17,8 +14,58 @@ usage() {
   log_info "  test     run or show status of tests"
   log_info "  version  manually manage release versions"
   log_info ""
-  log_info "for more command details run 'git auto <command> help'"
+  log_info "for more command details run 'git auto <command>'"
 }
+
+# get_latest_version outputs the latest version tag on the release branch
+#   $1  get a particular part of the version number (major, minor, build)
+get_version() {
+  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
+  case "$1" in
+    build) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)$/\1/p")    ;;
+    major) echo $(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")    ;;
+    minor) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
+    *)     echo $release                                               ;;
+  esac
+}
+
+# colorize applies color to string.
+#   $1  color code.
+#   $2  string.
+#
+# the color codes are as follows:
+#   0  black.
+#   1  red.
+#   2  green.
+#   3  yellow.
+#   4  blue.
+#   5  magenta.
+#   6  cyan.
+#   7  white.
+colorize() {
+  echo -e "$(tput setaf $1)$2$(tput sgr0)";
+}
+
+# log logs a colored message to the terminal.
+#   $1  color code.
+#   $2  message type.
+#   $3  string to log.
+log() {
+  echo -e "$(colorize "$1" "$2"):  $3";
+}
+
+# log info message to terminal.
+#   $1  string to log.
+log_info() {
+  log 2 info "$1"
+}
+
+# log error message to terminal.
+#   $1  string to log.
+log_error() {
+  log 1 error "$1" >&2
+}
+
 
 # validate subcommand
 subcommand=$1

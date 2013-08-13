@@ -2,16 +2,16 @@
 *an attempt to seemingly automate git project management*
 
 ## usage
-in order for us to get started with git auto, we must simply install it (via
-some currently undefined process), create a new directory, and run:
+in order for us to get started, we must install it (via some currently undefined
+process), create a new directory, and run:
 
 ```
-git auto init
+> git auto init
 ```
 
 now we have git auto all setup! the only left to do is add tests which git
 auto will use to automagically create releases on the release branch. first
-we must create a script to act as our fake test:
+we must create a script to act as our test:
 
 **test_example.sh**
 ```
@@ -103,6 +103,7 @@ git auto test show <optional test name, else all>
 ```
 git auto patch start
 git auto patch finish
+git auto patch publish
 ```
 
 
