@@ -1,21 +1,23 @@
 #! /bin/sh
 
-## settings
-set -e
-
-
-## functions
-#
-bump_version() {
-  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
-  major=$(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")
-  minor=$(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p")
+# version_bump increments the specified part of the version number by one
+#   $1  the part of the version number to increment (major, minor, build)
+version_bump() {
+  major=$(get_latest_release major)
+  minor=$(get_latest_release minor)
+  build=$(get_latest_release build)
 
   # increment correct version number
-  case $1 in
-    major) version="$(($major + 1)).0.0"      ;;
-    minor) version="$major.$(($minor + 1)).0" ;;
-    *)     usage                              ;;
+  case "$1" in
+    major)
+      version="$(($major + 1)).0.0" ;;
+    minor)
+      version="$major.$(($minor + 1)).0" ;;
+    build)
+      version="$major.$minor.$(($build + 1))" ;;
+    *)
+      version_usage
+      exit 1 ;;
   esac
 
   # add new tag to current release
@@ -24,21 +26,26 @@ bump_version() {
 }
 
 
-#
-usage() {
-  echo -e "usage: git auto version <command> <arg>"
-  echo -e "\nwhere available options for <command> are:"
-  echo -e "  bump\tincrement version number where <arg> is major or minor"
-  echo -e "\nfor more command details run 'git auto <command> help'"
-  exit 1
+# version_usage prints the usage instructions for the version subcommand
+version_usage() {
+  log_info "usage: git auto version <command> <arg>"
+  log_info ""
+  log_info "where available options for <command> are:"
+  log_info "  bump  increment version number where <arg> is major or minor"
+  log_info ""
+  log_info "for more command details run 'git auto <command> help'"
 }
 
 
-## main
-# parse command line options
-option=$1
-shift
-case $option in
-  bump) bump_version $@ ;;
-  *)    usage           ;;
-esac
+#
+version_main() {
+  option=$1
+  shift
+  case $option in
+    bump)
+      version_bump $@ ;;
+    *)
+      version_usage
+      exit 1 ;;
+  esac
+}

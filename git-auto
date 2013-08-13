@@ -1,25 +1,34 @@
 #! /bin/sh
 
+# set root directory
+root=$(readlink -f $0 | xargs dirname)
 
-## functions
+# import common functions
+source $root/common
+
+# usage prints the command line usage instructions
 usage() {
-  echo -e "usage: git auto <command>"
-  echo -e "\nwhere available options for <command> are:"
-  echo -e "  feature\tstart, finish, or publish feature branch"
-  echo -e "  init\t\tinitialize repository to be compatible with git auto"
-  echo -e "  patch\t\tstart, finish, or publish patch on existing release"
-  echo -e "  test\t\trun or show status of tests"
-  echo -e "  version\tmanually manage release versions"
-  echo -e "\nfor more command details run 'git auto <command> help'"
+  log_info "usage: git auto <command>"
+  log_info ""
+  log_info "where available options for <command> are:"
+  log_info "  feature  start, finish, or publish feature branch"
+  log_info "  init     initialize repository to be compatible with git auto"
+  log_info "  patch    start, finish, or publish patch on existing release"
+  log_info "  test     run or show status of tests"
+  log_info "  version  manually manage release versions"
+  log_info ""
+  log_info "for more command details run 'git auto <command> help'"
 }
 
-
-## main
-option=$1
+# validate subcommand
+subcommand=$1
 shift
-
-# parse command line options
-case $option in
-  feature|init|patch|test|version) ./$option $@ ;;
-  *)                               usage        ;;
+case "$subcommand" in
+  feature|init|patch|test|version)
+    source $root/$subcommand ;;
+  *)
+    usage
+    exit 1 ;;
 esac
+
+${subcommand}_main $@

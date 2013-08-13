@@ -1,10 +1,7 @@
 #! /bin/sh
 
-# todo: argument checking for functions
-
-## functions
 #
-finish() {
+feature_finish() {
   branch="feature/$1"
 
   # merge into master
@@ -14,35 +11,35 @@ finish() {
 }
 
 #
-publish() {
+feature_publish() {
   # todo: implement feature publishing
   echo "publishing unimplemented"
 }
 
 #
-start() {
+feature_start() {
   git checkout -qb "feature/$1" master
 }
 
 #
-usage() {
-  echo -e "usage: git auto feature <command> <arg>"
-  echo -e "\nwhere available options for <command> are:"
-  echo -e "  finish\tmerge feature branch named <arg> into master and delete it"
-  echo -e "  publish\tpush feature branch named <arg> to origin"
-  echo -e "  start\t\tcreate new feature branch named <arg>"
-  echo -e "\nfor more command details run 'git auto <command> help'"
+feature_usage() {
+  log_info "usage: git auto feature <command> <arg>"
+  log_info "\nwhere available options for <command> are:"
+  log_info "  finish\tmerge feature branch named <arg> into master and delete it"
+  log_info "  publish\tpush feature branch named <arg> to origin"
+  log_info "  start\t\tcreate new feature branch named <arg>"
+  log_info "\nfor more command details run 'git auto <command> help'"
 }
 
-
-## main
-option=$1
-shift
-
-# parse command line options
-case $option in
-  finish)  finish $@  ;;
-  publish) publish $@ ;;
-  start)   start $@   ;;
-  *)       usage      ;;
-esac
+#
+feature_main() {
+  # parse command line options
+  option=$1
+  shift
+  case $option in
+    finish)  feature_finish  $@ ;;
+    publish) feature_publish $@ ;;
+    start)   feature_start   $@ ;;
+    *)       feature_usage      ;;
+  esac
+}
