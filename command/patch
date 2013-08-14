@@ -1,68 +1,58 @@
-#! /bin/sh
-
-## settings
-set -e
-
-
-## functions
+#! /bin/bash
 #
-finish() {
-  branch=$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p")
-  version=$(echo $branch | sed "s/patch\///")
+# TODO(mraxilus): document header
+
+patch_main() {
+  # TODO(mraxilus): document patch_main
+  if ! declare -f -F "patch_${1}" > /dev/null; then
+    patch_usage
+    exit 1
+  fi
+  patch_${1} "${@:2}"
+}
+
+patch_usage() {
+  # TODO(mraxilus): document patch_usage
+  echo "usage: git auto patch <command> <arg>"
+  echo ""
+  echo "where available options for <command> are:"
+  echo "  finish:  merge patch branch named <arg> into master, delete it, and"
+  echo "           create a new minor release"
+  echo "  publish: push patch branch named <arg> to origin"
+  echo "  start:   create new patch branch named <arg>"
+  echo ""
+  echo "for more command details run 'git auto <command> help'"
+}
+
+patch_finish() {
+  # TODO(mraxilus): document patch_finish
+  local branch="$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p")"
+  local version="$(echo ${branch} | sed "s/patch\///")"
 
   # merge into release
-  git checkout -q release
-  git merge -q --no-ff "$branch"
+  git checkout release
+  git merge --no-ff "${branch}"
 
   # add tag if nonexistant
-  if test "$(git tag -l | grep $version)" != $version
-  then
-    git tag -a $version
+  if [[ "$(git tag -l | grep ${version})" != "${version}" ]]; then
+    git tag -a "${version}"
   fi
 
   # merge into master
-  git checkout -q master
-  git merge -q --no-ff "$branch"
-  git branch -qd "$branch"
+  git checkout master
+  git merge --no-ff "${branch}"
+  git branch -d "${branch}"
 }
 
-#
-publish() {
-  # todo: implement patch publishing
-  echo "publishing unimplemented"
+patch_publish() {
+  # TODO(mraxilus): implement patch publishing
+  echo "patch_publish unimplemented"
 }
 
-#
-start() {
-  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
-  major=$(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")
-  minor=$(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p")
-  version="$major.$(($minor + 1)).0"
-
-  # create minor version incremented patch
-  git checkout -qb "patch/$version" release
+patch_start() {
+  # TODO(mraxilus): document patch_start
+  local major="$(git auto version show major)"
+  local minor="$(git auto version show minor)"
+  local version="${major}.$((${minor} + 1)).0"
+  git checkout -qb "patch/${version}" release
 }
-
-#
-usage() {
-  echo -e "usage: git auto patch <command> <arg>"
-  echo -e "\nwhere available options for <command> are:"
-  echo -e "  finish\tmerge patch branch named <arg> into master, delete it, and"
-  echo -e "        \tcreate a new minor release"
-  echo -e "  publish\tpush patch branch named <arg> to origin"
-  echo -e "  start\t\tcreate new patch branch named <arg>"
-  echo -e "\nfor more command details run 'git auto <command> help'"
-}
-
-
-## main
-option=$1
-shift
-
-# parse command line options
-case $option in
-  finish)  finish $@  ;;
-  publish) publish $@ ;;
-  start)   start $@   ;;
-  *)       usage      ;;
-esac

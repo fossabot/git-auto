@@ -1,14 +1,17 @@
-#! /bin/sh
+#! /bin/bash
+#
+# TODO(mraxilus): document header
 
 init_main() {
+  # TODO(mraxilus): document main
   # initialize repository
   git init 
   touch git-auto.yaml
   git add git-auto.yaml
-  git commit -m "incept repository"
+  git commit -m "initialize repository"
 
   # create branch for releases
   git checkout -b release master
-  git tag -a 0.0.0 -m "incept release versioning"
+  git tag -a "0.0.0" -m "initialize automatic versioning"
   git checkout master
 }

@@ -1,10 +1,12 @@
 #! /bin/bash
+#
+# TODO(mraxilus): document header
 
-# set root directory
-GIT_AUTO_ROOT=$(readlink -f $0 | xargs dirname)
+GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 source "${GIT_AUTO_ROOT}/lib/swiss.sh/swiss.sh"
 
 main() {
+  # TODO(mraxilus): document main
   local command="${1}"
   local command_path="${GIT_AUTO_ROOT}/command/${1}"
   if [[ ! -f "${command_path}" ]]; then
@@ -15,16 +17,16 @@ main() {
   ${command}_main "${@:2}"
 }
 
-# usage prints the command line usage instructions
 usage() {
+  # TODO(mraxilus): document usage
   echo "usage: git auto <command>"
   echo ""
   echo "where available options for <command> are:"
-  echo "  feature  start, finish, or publish feature branch"
-  echo "  init     initialize repository to be compatible with git auto"
-  echo "  patch    start, finish, or publish patch on existing release"
-  echo "  test     run or show status of tests"
-  echo "  version  manually manage release versions"
+  echo "  feature: start, finish, or publish feature branch"
+  echo "  init:    initialize repository to be compatible with git auto"
+  echo "  patch:   start, finish, or publish patch on existing release"
+  echo "  test:    run or show status of tests"
+  echo "  version: manually manage release versions"
   echo ""
   echo "for more command details run 'git auto <command>'"
 }

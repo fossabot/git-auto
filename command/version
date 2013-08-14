@@ -1,60 +1,61 @@
-#! /bin/sh
+#!/bin/bash
+#
+# TODO(mraxilus): document header
 
-# version_bump increments the specified part of the version number by one
-#   $1  the part of the version number to increment (major, minor, build)
+version_main() {
+  # TODO(mraxilus): document version_main
+  if ! declare -f -F "version_${1}" > /dev/null; then
+      version_usage
+      exit 1
+  fi
+  version_${1} "${@:2}"
+}
+
+version_usage() {
+  # TODO(mraxilus): document version_usage
+  # version_usage prints the usage instructions for the version subcommand
+  echo "usage: git auto version <command> [<arg>]"
+  echo ""
+  echo "where available options for <command> are:"
+  echo "  bump: increment version number where <arg> is major or minor"
+  echo "  show: show the latest version number"
+  echo ""
+  echo "for more command details run 'git auto <command>'"
+}
+
 version_bump() {
-  major=$(version_show major)
-  minor=$(version_show minor)
-  build=$(version_show build)
+  # TODO(mraxilus): document version_bump
+  # version_bump increments the specified part of the version number by one
+  #   $1  the part of the version number to increment (major, minor, build)
+  local version
+  local major="$(version_show major)"
+  local minor="$(version_show minor)"
+  local build="$(version_show build)"
 
   # increment correct version number
-  case "$1" in
-    major)
-      version="$(($major + 1)).0.0" ;;
-    minor)
-      version="$major.$(($minor + 1)).0" ;;
-    build)
-      version="$major.$minor.$(($build + 1))" ;;
+  case "${1}" in
+    major) version="$(($major + 1)).0.0";;
+    minor) version="$major.$(($minor + 1)).0";;
+    build) version="$major.$minor.$(($build + 1))";;
     *)
       version_usage
       exit 1 ;;
   esac
 
   # add new tag to current release
-  git checkout -q release
-  git tag -a $version
+  git checkout release
+  git tag -a "${version}"
 }
 
 version_show() {
+  # TODO(mraxilus): document version_show
   # get_latest_version outputs the latest version tag on the release branch
   #   $1  get a particular part of the version number (major, minor, build)
-  # TODO(mraxilus): document version_show
-  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
-  case "$1" in
-    build) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)$/\1/p")    ;;
-    major) echo $(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")    ;;
-    minor) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
-    *)     echo $release                                               ;;
+  local release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
+  case "${1}" in
+    build) echo $(echo "${release}" | sed -n "s/.*\.\([0-9]\+\)$/\1/p")    ;;
+    major) echo $(echo "${release}" | sed -n "s/^\([0-9]\+\)\..*/\1/p")    ;;
+    minor) echo $(echo "${release}" | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
+    *)     echo "${release}"                                               ;;
   esac
-}
-
-
-# version_usage prints the usage instructions for the version subcommand
-version_usage() {
-  echo "usage: git auto version <command> <arg>"
-  echo ""
-  echo "where available options for <command> are:"
-  echo "  bump: increment version number where <arg> is major or minor"
-  echo ""
-  echo "for more command details run 'git auto <command>'"
-}
-
-
-#
-version_main() {
-  if ! declare -f -F "version_${1}" > /dev/null; then
-      version_usage
-      exit 1
-  fi
-  version_${1} "${@:2}"
 }
