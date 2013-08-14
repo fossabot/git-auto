@@ -2,6 +2,25 @@
 #
 # post-commit
 
+main() {
+  # TODO(mraxilus): document main
+  if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
+    exit 0
+  fi
+
+  # TODO(mraxilus): verify tests before merge
+  echo "warn: test verification unimplimented"
+  echo "info: assume all test pass"
+  # TODO(mraxilus): fail safely
+  git checkout release
+  git merge master --no-ff --strategy-option=theirs
+  major=$(get_version major)
+  minor=$(get_version minor)
+  build=$(get_version build)
+  git tag -a "$major.$minor.$(($build + 1))" -m "increment build automatically"
+  git checkout master
+} 
+
 # get_latest_version outputs the latest version tag on the release branch
 #   $1  get a particular part of the version number (major, minor, build)
 get_version() {
@@ -14,16 +33,4 @@ get_version() {
   esac
 }
 
-if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
-  exit 0
-fi
-
-# TODO(mraxilus): verify tests before merge
-git checkout release
-git merge master --no-ff --strategy-option=theirs
-major=$(get_version major)
-minor=$(get_version minor)
-build=$(get_version build)
-git tag -a "$major.$minor.$(($build + 1))" -m "increment build automatically"
-git checkout master
-    
+main

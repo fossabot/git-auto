@@ -3,6 +3,21 @@
 # set root directory
 root=$(readlink -f $0 | xargs dirname)
 
+main() {
+  # validate subcommand
+  subcommand=$1
+  shift
+  case "$subcommand" in
+    feature|init|patch|test|version)
+      source $root/command/$subcommand ;;
+    *)
+      usage
+      exit 1 ;;
+  esac
+
+  ${subcommand}_main $@
+}
+
 # usage prints the command line usage instructions
 usage() {
   log_info "usage: git auto <command>"
@@ -15,18 +30,6 @@ usage() {
   log_info "  version  manually manage release versions"
   log_info ""
   log_info "for more command details run 'git auto <command>'"
-}
-
-# get_latest_version outputs the latest version tag on the release branch
-#   $1  get a particular part of the version number (major, minor, build)
-get_version() {
-  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
-  case "$1" in
-    build) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)$/\1/p")    ;;
-    major) echo $(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")    ;;
-    minor) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
-    *)     echo $release                                               ;;
-  esac
 }
 
 # colorize applies color to string.
@@ -44,6 +47,18 @@ get_version() {
 #   7  white.
 colorize() {
   echo -e "$(tput setaf $1)$2$(tput sgr0)";
+}
+
+# get_latest_version outputs the latest version tag on the release branch
+#   $1  get a particular part of the version number (major, minor, build)
+get_version() {
+  release=$(git tag -l | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" | tail -n 1)
+  case "$1" in
+    build) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)$/\1/p")    ;;
+    major) echo $(echo $release | sed -n "s/^\([0-9]\+\)\..*/\1/p")    ;;
+    minor) echo $(echo $release | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
+    *)     echo $release                                               ;;
+  esac
 }
 
 # log logs a colored message to the terminal.
@@ -66,16 +81,4 @@ log_error() {
   log 1 error "$1" >&2
 }
 
-
-# validate subcommand
-subcommand=$1
-shift
-case "$subcommand" in
-  feature|init|patch|test|version)
-    source $root/$subcommand ;;
-  *)
-    usage
-    exit 1 ;;
-esac
-
-${subcommand}_main $@
+main
