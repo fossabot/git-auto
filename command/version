@@ -44,7 +44,7 @@ version_bump() {
 
   # add new tag to current release
   git checkout release
-  git tag --annotate "${version}" --message="${2:-\"bump version manually\"}"
+  git tag --annotate "${version}" --message="${2:-bump version manually}"
 }
 
 version_show() {

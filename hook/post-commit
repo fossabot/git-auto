@@ -13,5 +13,6 @@ git merge master --no-ff --strategy-option=theirs
 major="$(git auto version show major)"
 minor="$(git auto version show minor)"
 build="$(git auto version show build)"
-git tag -a "$major.$minor.$(($build + 1))" -m "automatic increment"
+git tag --annotate "$major.$minor.$(($build + 1))" \
+  --message="increment automatically"
 git checkout master
