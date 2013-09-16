@@ -1,4 +1,4 @@
-# [git auto][1] ![build status][2]
+# [git auto][1] [![build status][2]][3]
 *an attempt to seemingly automate git project management*
 
 ## usage
@@ -106,10 +106,8 @@ git auto patch finish
 git auto patch publish
 ```
 
-
-
 ## license
-copyright © mr axilus [![flattr this][3]][4]
+copyright © mr axilus
 
 permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "software"), to deal
@@ -131,6 +129,4 @@ software.
 
 [1]: git-auto.projectaxil.us "git auto"
 [2]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
-[3]: http://api.flattr.com/button/flattr-badge-large.png
-[4]: https://flattr.com/profile/mraxilus
-
+[3]: https://secure.travis-ci.org/mraxilus/git-auto
