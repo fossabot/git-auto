@@ -2,22 +2,20 @@
 *an attempt to seemingly automate git project management*
 
 ## usage
-in order for us to get started, we must install it (via some currently undefined
-process), create a new directory, and run:
+in order for us to get started, we must install it (via some currently
+undefined process), create a new directory, and run:
 
 ```
 > git auto init
 ```
 
-now we have git auto all setup! the only left to do is add tests which git
-auto will use to automagically create releases on the release branch. first
-we must create a script to act as our test:
+now we have git auto all setup! the only left to do is add tests. git auto will
+use them to automagically create releases on the release branch. first we must
+create a script to act as our test:
 
-**test_example.sh**
+**example_test.sh**
 ```
 #! bin/sh
-
-echo "test was successful"
 
 exit 0
 ```
@@ -27,48 +25,42 @@ next we must register the test with git auto by creating a configuration file:
 **git-auto.yaml**
 ```
 tests:
-  example: ./test_example.sh
+  example: ./example_test.sh
 ```
 
-every time we commit git auto will run our tests and create a new release on
-the release branch if they all exited successfully. it will also create a tag
-for each test and update those tags to the last commit each of them passed on.
-that way you know what commit started the failure of a particular test.
+every time we make a commit git auto will run our tests. it will also create a
+new release on the release branch if the tests exited successfully. in addition
+it will also create a tag for each test and update those tags to the last
+commit each of them passed on. that way you know what commit started the
+failure of a particular test.
 
-git auto will only create a release if all tests pass on a single commit.
+git auto will only create a release if all tests pass on the latest commit.
 
 now, let's test it out by making a commit:
 
 ```
-touch readme.md
-git add readme.md
-git commit --message="add readme"
+> chmod +x example_test.sh
+> git add example_test.sh
+> git commit --message="add example test"
 ...
-
-execute "git auto test run all":
-  test_example:
-    test was successful
-
-  test_example passed
-
-  1 tests passed, 0 tests failed
-
+run all tests:
+  [run   ] example
+  [  pass] example (1ms)
+  1 test(s) passed, 0 test(s) failed
 update test tags:
-  test_example -> ac56f0b
-
-increment release to 0.0.1:
+  example -> ac56f0b
+increment release:
   merge master -> release
+  tag as version 0.0.1
 ```
 
 and we've just successfully used git auto! \\(:D)/ ..but there's much more to
 git auto than that. i would suggest you check out the documentation to
 discover the true power of git auto. until next time..
 
-
 ## purpose
 i love git flow, however i'm much too lazy to justify the use it. and thus, git
 auto was born!
-
 
 ## documentation
 ### features
@@ -90,14 +82,7 @@ git auto version bump major <reason for version bump>
 #### test failure history
 ```
 git auto test show <optional test name, else all>
-# example output:
-#   tag:     test_unit
-#   commit:  hash..
-#   blame:   hash..
-#   cause:   message of the commit where the test failed
 ```
-
-
 
 ### patches
 ```
