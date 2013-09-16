@@ -12,6 +12,7 @@ feature_finish() {
   git checkout master
   git merge --no-ff "$branch"
   git branch -d "$branch"
+  #TODO(mraxilus): add post-merge hook to handle merge conflicts
 }
 
 #
