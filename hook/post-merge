@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# post-merge
+
+# TODO(mraxilus): impliment post-merge hook
+echo "post-merge unimplimented"

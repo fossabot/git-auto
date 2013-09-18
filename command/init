@@ -15,5 +15,8 @@ init_main() {
   git tag -a "0.0.0" -m "initialize automatic versioning"
   git checkout master
 
-  #TODO(mraxilus): install hooks and make executable
+  # install git hooks
+  for hook in "${GIT_AUTO_ROOT}/hook/*"; do
+    rsync ${GIT_AUTO_ROOT}/hook/* .git/hooks
+  done
 }

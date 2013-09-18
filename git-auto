@@ -1,8 +1,10 @@
 #! /bin/bash
 #
+# git-auto
 # TODO(mraxilus): document header
 
 GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
+
 source "${GIT_AUTO_ROOT}/lib/swiss.sh/swiss.sh"
 
 main() {
