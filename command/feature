@@ -10,7 +10,7 @@ feature_finish() {
   fi
   local branch="feature/$1"
   git checkout master
-  git merge --no-ff "$branch"
+  git merge --no-ff "$branch" -m "finish ${branch}"
   # branch removed by post-commit/merge cleanup
 }
 
