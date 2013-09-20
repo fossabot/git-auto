@@ -7,12 +7,5 @@ if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
 fi
 # TODO(mraxilus): verify tests before merge
 echo "automated testing unimplimented"
-# TODO(mraxilus): fail safely
-git checkout release
-git merge master --no-ff --strategy-option=theirs
-major="$(git auto version show major)"
-minor="$(git auto version show minor)"
-build="$(git auto version show build)"
-git tag --annotate "$major.$minor.$(($build + 1))" \
-  --message="increment automatically"
-git checkout master
+git auto release
+git auto prune

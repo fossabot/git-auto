@@ -1,0 +1,19 @@
+#! /bin/bash
+#
+# TODO(mraxilus): document header
+
+release_main() {
+  # TODO(mraxilus): document main
+  # TODO(mraxilus): fail safely
+  git checkout release
+  git merge master --no-ff --strategy-option=theirs
+  major="$(git auto version show major)"
+  minor="$(git auto version show minor)"
+  build="$(git auto version show build)"
+  git tag --annotate "$major.$minor.$(($build + 1))" \
+    --message="increment automatically"
+  git checkout master
+
+  # cleanup stray branches
+  git branch --merged | grep -v "master\|release" | xargs git branch -d 
+}

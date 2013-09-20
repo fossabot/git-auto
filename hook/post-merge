@@ -1,6 +1,9 @@
 #!/bin/bash
 #
-# post-merge
+# TODO(mraxilus): document header
 
-# TODO(mraxilus): impliment post-merge hook
-echo "post-merge unimplimented"
+if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
+  exit 0
+fi
+git auto release
+git auto prune

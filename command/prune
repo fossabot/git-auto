@@ -1,0 +1,9 @@
+#! /bin/bash
+#
+# TODO(mraxilus): document header
+
+prune_main() {
+  # TODO(mraxilus): document main
+  # cleanup stray branches
+  git branch --merged | grep -v "master\|release" | xargs git branch -d 
+}
