@@ -26,7 +26,8 @@ patch_usage() {
 
 patch_finish() {
   # TODO(mraxilus): document patch_finish
-  local branch="$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p")"
+  local branch="$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p" \
+    | sed -r "s:\x1B\[[0-9;]*[mK]::g" )"
   local version="$(echo ${branch} | sed "s/patch\///")"
 
   # merge into release
