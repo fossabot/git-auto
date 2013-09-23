@@ -30,19 +30,21 @@ patch_finish() {
     | sed -r "s:\x1B\[[0-9;]*[mK]::g" )"
   local version="$(echo ${branch} | sed "s/patch\///")"
 
+  # TODO(mraxilus): run all tests on patch branch before patching
+
   # merge into release
   git checkout release
-  git merge --no-ff "${branch}"
+  git merge --no-ff "${branch}" -m "apply patch/${version}"
 
   # add tag if nonexistant
   if [[ "$(git tag -l | grep ${version})" != "${version}" ]]; then
-    git tag -a "${version}"
+    git tag --annotate "${version}" --message="incrament minor number"
   fi
 
   # merge into master
   git checkout master
-  git merge --no-ff "${branch}"
-  git branch -d "${branch}"
+  git merge --no-ff "${branch}" -m "apply patch/${version}"
+  #git branch -d "${branch}"
 }
 
 patch_publish() {
