@@ -15,7 +15,4 @@ release_main() {
   git tag --annotate "$major.$minor.$(($build + 1))" \
     --message="increment build number"
   git checkout master
-
-  # cleanup stray branches
-  git branch --merged | grep -v "master\|release" | xargs git branch -d 
 }
