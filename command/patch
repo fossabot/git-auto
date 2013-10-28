@@ -36,10 +36,7 @@ patch_finish() {
   git checkout release
   git merge --no-ff "${branch}" -m "apply patch/${version}"
 
-  # add tag if nonexistant
-  if [[ "$(git tag -l | grep ${version})" != "${version}" ]]; then
-    git tag --annotate "${version}" --message="incrament minor number"
-  fi
+  git auto version bump minor "apply patch to release"
 
   # merge into master
   git checkout master
