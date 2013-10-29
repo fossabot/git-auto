@@ -1,14 +1,19 @@
 #! /bin/bash
 #
 # git-auto
-# TODO(mraxilus): document header
 
 GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 
 source "${GIT_AUTO_ROOT}/lib/swiss.sh/swiss.sh"
 
 main() {
-  # TODO(mraxilus): document main
+  # delegate arguments to the proper command script.
+  # globals:
+  #   GIT_AUTO_ROOT
+  # arguments:
+  #   $1: git auto command to be run
+  # returns:
+  #   none
   local command="${1}"
   local command_path="${GIT_AUTO_ROOT}/command/${1}"
   if [[ ! -f "${command_path}" ]]; then
@@ -20,7 +25,13 @@ main() {
 }
 
 usage() {
-  # TODO(mraxilus): document usage
+  # print out the usage instructions for git auto.
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   echo "usage: git auto <command>"
   echo ""
   echo "where available options for <command> are:"
