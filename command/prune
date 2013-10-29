@@ -3,8 +3,13 @@
 # prune
 
 prune_main() {
-  # TODO(mraxilus): document main
-  # cleanup stray branches
+  # remove all merged branches which aren't release or master
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   git branch --merged \
     | grep -v "master\|release" \
     | sed -r "s:\x1B\[[0-9;]*[mK]::g" \
