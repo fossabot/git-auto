@@ -3,7 +3,14 @@
 # version
 
 version_main() {
-  # TODO(mraxilus): document version_main
+  # delegate arguments to the proper version function
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the version function excluding the preceeding "version_"
+  #   $@: arguments to be provided to delegated version function
+  # returns:
+  #   none
   if ! declare -f -F "version_${1}" > /dev/null; then
       version_usage
       exit 1
@@ -12,9 +19,13 @@ version_main() {
 }
 
 version_bump() {
-  # TODO(mraxilus): document version_bump
-  # version_bump increments the specified part of the version number by one
-  #   $1  the part of the version number to increment (major, minor, build)
+  # increment the specified part of the latest version number
+  # globals:
+  #   none
+  # arguments:
+  #   $1: part of latest version number to increment (major, minor, build)
+  # returns:
+  #   none
   local version
   local major="$(version_show major)"
   local minor="$(version_show minor)"
@@ -32,13 +43,17 @@ version_bump() {
 
   # add new tag to current release
   git checkout release
-  git tag --annotate "${version}" --message="${2:-bump version manually}"
+  git tag --annotate "${version}" --message="${2:-bump ${1} version manually}"
 }
 
 version_show() {
-  # TODO(mraxilus): document version_show
-  # get_latest_version outputs the latest version tag on the release branch
-  #   $1  get a particular part of the version number (major, minor, build)
+  # print out latest version number
+  # globals:
+  #   none
+  # arguments:
+  #   $1: print out only paticular part of version number (major, minor, build)
+  # returns:
+  #   none
   local release=$(git tag --list | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" \
     | tail -n 1)
   case "${1}" in
@@ -50,13 +65,26 @@ version_show() {
 }
 
 version_usage() {
-  # TODO(mraxilus): document version_usage
-  # version_usage prints the usage instructions for the version subcommand
+  # print out the usage instructions for git auto version
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   echo "usage: git auto version <command> [<arg>]"
   echo ""
   echo "where available options for <command> are:"
-  echo "  bump: increment version number where <arg> is major or minor"
+  echo "  bump: increment latest version number"
+  echo "    where available options for <arg> are:"
+  echo "      major: increment major number"
+  echo "      minor: increment minor number"
+  echo "      build: increment build number"
   echo "  show: show the latest version number"
+  echo "    where available options for <arg> are:"
+  echo "      major: show major number"
+  echo "      minor: show minor number"
+  echo "      build: show build number"
   echo ""
   echo "for more command details run 'git auto <command>'"
 }
