@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# TODO(mraxilus): document header
+# release
 
 release_main() {
   # TODO(mraxilus): document main

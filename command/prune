@@ -1,11 +1,12 @@
 #! /bin/bash
 #
-# TODO(mraxilus): document header
+# prune
 
 prune_main() {
   # TODO(mraxilus): document main
   # cleanup stray branches
   git branch --merged \
     | grep -v "master\|release" \
-    | sed -r "s:\x1B\[[0-9;]*[mK]::g" | xargs git branch -d
+    | sed -r "s:\x1B\[[0-9;]*[mK]::g" \
+    | xargs git branch -d
 }

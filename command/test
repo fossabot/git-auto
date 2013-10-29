@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# TODO(mraxilus): document header
+# test
 
 test_main() {
   # TODO(mraxilus): impliment test_main
-  echo "test_main unimplimented"
+  echo "test unimplemented"
 }

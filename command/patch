@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# TODO(mraxilus): document header
+# patch
 
 patch_main() {
   # TODO(mraxilus): document patch_main
@@ -9,19 +9,6 @@ patch_main() {
     exit 1
   fi
   patch_${1} "${@:2}"
-}
-
-patch_usage() {
-  # TODO(mraxilus): document patch_usage
-  echo "usage: git auto patch <command> <arg>"
-  echo ""
-  echo "where available options for <command> are:"
-  echo "  finish:  merge patch branch named <arg> into master, delete it, and"
-  echo "           create a new minor release"
-  echo "  publish: push patch branch named <arg> to origin"
-  echo "  start:   create new patch branch named <arg>"
-  echo ""
-  echo "for more command details run 'git auto <command> help'"
 }
 
 patch_finish() {
@@ -55,4 +42,17 @@ patch_start() {
   local minor="$(git auto version show minor)"
   local version="${major}.$((${minor} + 1)).0"
   git checkout -qb "patch/${version}" release
+}
+
+patch_usage() {
+  # TODO(mraxilus): document patch_usage
+  echo "usage: git auto patch <command> <arg>"
+  echo ""
+  echo "where available options for <command> are:"
+  echo "  finish:  merge patch branch named <arg> into master, delete it, and"
+  echo "           create a new minor release"
+  echo "  publish: push patch branch named <arg> to origin"
+  echo "  start:   create new patch branch named <arg>"
+  echo ""
+  echo "for more command details run 'git auto <command> help'"
 }

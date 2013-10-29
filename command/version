@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# TODO(mraxilus): document header
+# version
 
 version_main() {
   # TODO(mraxilus): document version_main
@@ -9,18 +9,6 @@ version_main() {
       exit 1
   fi
   version_${1} "${@:2}"
-}
-
-version_usage() {
-  # TODO(mraxilus): document version_usage
-  # version_usage prints the usage instructions for the version subcommand
-  echo "usage: git auto version <command> [<arg>]"
-  echo ""
-  echo "where available options for <command> are:"
-  echo "  bump: increment version number where <arg> is major or minor"
-  echo "  show: show the latest version number"
-  echo ""
-  echo "for more command details run 'git auto <command>'"
 }
 
 version_bump() {
@@ -59,4 +47,16 @@ version_show() {
     minor) echo $(echo "${release}" | sed -n "s/.*\.\([0-9]\+\)\..*/\1/p") ;;
     *)     echo "${release}"                                               ;;
   esac
+}
+
+version_usage() {
+  # TODO(mraxilus): document version_usage
+  # version_usage prints the usage instructions for the version subcommand
+  echo "usage: git auto version <command> [<arg>]"
+  echo ""
+  echo "where available options for <command> are:"
+  echo "  bump: increment version number where <arg> is major or minor"
+  echo "  show: show the latest version number"
+  echo ""
+  echo "for more command details run 'git auto <command>'"
 }

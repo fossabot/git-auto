@@ -2,6 +2,21 @@
 #
 # feature
 
+feature_main() {
+  # delegate arguments to the proper feature function
+  # globals:
+  #   GIT_AUTO_ROOT
+  # arguments:
+  #   $1: name of the feature function excluding the preceeding "feature_"
+  # returns:
+  #   none
+  if ! declare -f -F "feature_${1}" > /dev/null; then
+    feature_usage
+    exit 1
+  fi
+  feature_${1} "${@:2}"
+}
+
 feature_finish() {
   # merge completed feature branch into master
   # globals:
@@ -55,19 +70,4 @@ feature_usage() {
   echo "  start:   create new feature branch named <arg>"
   echo ""
   echo "for more command details run 'git auto <command>'"
-}
-
-feature_main() {
-  # delegate arguments to the proper feature function
-  # globals:
-  #   GIT_AUTO_ROOT
-  # arguments:
-  #   $1: name of the feature function excluding the preceeding "feature_"
-  # returns:
-  #   none
-  if ! declare -f -F "feature_${1}" > /dev/null; then
-    feature_usage
-    exit 1
-  fi
-  feature_${1} "${@:2}"
 }
