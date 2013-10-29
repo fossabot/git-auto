@@ -20,7 +20,8 @@ create a script to act as our test:
 exit 0
 ```
 
-next we must register the test with git auto by creating a configuration file:
+ignoring the fact that the test always passes, next we must register it with
+git auto by modifying the configuration file:
 
 **git-auto.yaml**
 ```
@@ -28,10 +29,10 @@ tests:
   example: ./example_test.sh
 ```
 
-every time we make a commit git auto will run our tests. it will also create a
+every time we make a commit git auto will run our test. it will also create a
 new release on the release branch if the tests exited successfully. in addition
 it will also create a tag for each test and update those tags to the last
-commit each of them passed on. that way you know what commit started the
+commit each of them passed on. that way you know which commit started the
 failure of a particular test.
 
 git auto will only create a release if all tests pass on the latest commit.
@@ -46,7 +47,7 @@ now, let's test it out by making a commit:
 run all tests:
   [run   ] example
   [  pass] example (1ms)
-  1 test(s) passed, 0 test(s) failed
+  0 tests failed, 1 test passed, 1 test ran
 update test tags:
   example -> ac56f0b
 increment release:
@@ -86,9 +87,9 @@ git auto test show <optional test name, else all>
 
 ### patches
 ```
-git auto patch start
-git auto patch finish
-git auto patch publish
+git auto patch start <branch name>
+git auto patch finish <branch name>
+git auto patch publish <branch name>
 ```
 
 ## license
