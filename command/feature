@@ -1,9 +1,15 @@
 #!/bin/bash
 #
-# TODO(mraxilus): document header
+# feature
 
 feature_finish() {
-  # TODO(mraxilus): document feature_finish
+  # merge completed feature branch into master
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the feature branch to finish
+  # returns: 
+  #   none
   if [[ ${#} < 1 ]]; then
     feature_usage
     exit 1
@@ -22,13 +28,25 @@ feature_publish() {
 
 #
 feature_start() {
-  # TODO(mraxilus): document feature_start
+  # create new feature branch based off of head of master
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the feature branch to create
+  # returns: 
+  #   none
   git checkout -b "feature/${1}" master
 }
 
 #
 feature_usage() {
-  # TODO(mraxilus): document feature_usage
+  # print out the usage instructions for git auto feature
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   echo "usage: git auto feature <command> <arg>"
   echo ""
   echo "where available options for <command> are:"
@@ -40,7 +58,13 @@ feature_usage() {
 }
 
 feature_main() {
-  # TODO(mraxilus): document feature_main
+  # delegate arguments to the proper feature function
+  # globals:
+  #   GIT_AUTO_ROOT
+  # arguments:
+  #   $1: name of the feature function excluding the preceeding "feature_"
+  # returns:
+  #   none
   if ! declare -f -F "feature_${1}" > /dev/null; then
     feature_usage
     exit 1

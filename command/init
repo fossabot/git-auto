@@ -1,10 +1,15 @@
 #! /bin/bash
 #
-# TODO(mraxilus): document header
+# init
 
 init_main() {
-  # TODO(mraxilus): document main
-  # initialize repository
+  # initialize a git auto repository by setting up files, tags, and hooks
+  # globals:
+  #   GIT_AUTO_ROOT
+  # arguments:
+  #   none
+  # returns:
+  #   none
   git init 
   touch git-auto.yaml
   git add git-auto.yaml
