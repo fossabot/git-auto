@@ -3,7 +3,13 @@
 # patch
 
 patch_main() {
-  # TODO(mraxilus): document patch_main
+  # delegate arguments to the proper patch function
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch function excluding the preceeding "patch_"
+  # returns:
+  #   none
   if ! declare -f -F "patch_${1}" > /dev/null; then
     patch_usage
     exit 1
@@ -12,8 +18,15 @@ patch_main() {
 }
 
 patch_finish() {
-  # TODO(mraxilus): document patch_finish
-  local branch="$(git branch | sed -n "s/.*\(patch\/.*\)/\1/p" \
+  # merge completed patch branch into release and master
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to finish
+  # returns: 
+  #   none
+  local branch="$(git branch \
+    | sed -n "s/.*\(patch\/.*\)/\1/p" \
     | sed -r "s:\x1B\[[0-9;]*[mK]::g" )"
   local version="$(echo ${branch} | sed "s/patch\///")"
 
@@ -37,7 +50,13 @@ patch_publish() {
 }
 
 patch_start() {
-  # TODO(mraxilus): document patch_start
+  # create new patch branch based off of head of release
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns: 
+  #   none
   local major="$(git auto version show major)"
   local minor="$(git auto version show minor)"
   local version="${major}.$((${minor} + 1)).0"
@@ -45,7 +64,13 @@ patch_start() {
 }
 
 patch_usage() {
-  # TODO(mraxilus): document patch_usage
+  # print out the usage instructions for git auto patch
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   echo "usage: git auto patch <command> <arg>"
   echo ""
   echo "where available options for <command> are:"

@@ -5,7 +5,7 @@
 feature_main() {
   # delegate arguments to the proper feature function
   # globals:
-  #   GIT_AUTO_ROOT
+  #   none
   # arguments:
   #   $1: name of the feature function excluding the preceeding "feature_"
   # returns:

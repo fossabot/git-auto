@@ -4,5 +4,5 @@
 
 test_main() {
   # TODO(mraxilus): impliment test_main
-  echo "test unimplemented"
+  echo "test_main unimplemented"
 }
