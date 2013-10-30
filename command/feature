@@ -35,13 +35,11 @@ feature_finish() {
   # branch removed by post-commit/merge cleanup
 }
 
-#
 feature_publish() {
   # TODO(mraxilus}: implement feature publishing
   echo "feature_publish unimplemented"
 }
 
-#
 feature_start() {
   # create new feature branch based off of head of master
   # globals:
@@ -53,7 +51,6 @@ feature_start() {
   git checkout -b "feature/${1}" master
 }
 
-#
 feature_usage() {
   # print out the usage instructions for git auto feature
   # globals:

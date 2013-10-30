@@ -5,7 +5,6 @@
 if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
   exit 0
 fi
-# TODO(mraxilus): verify tests before merge
-echo "automated testing unimplimented"
+git auto test run || exit 1
 git auto release
 git auto prune

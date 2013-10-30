@@ -2,6 +2,9 @@
 #
 # git-auto
 
+set -o nounset
+set -o errexit
+
 GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 
 source "${GIT_AUTO_ROOT}/lib/swiss.sh/swiss.sh"

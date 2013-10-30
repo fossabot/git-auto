@@ -3,12 +3,15 @@
 # release
 
 release_main() {
-  # TODO(mraxilus): document main
-  # TODO(mraxilus): fail safely
+  # create a new release from master branch, incrementing build number
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
   git checkout release
-  # TODO(mraxilus): add support for minor, major, and build release messages
-  git merge master --no-ff --strategy-option=theirs \
-    -m "create release"
+  git merge master --no-ff --strategy-option=theirs -m "create release"
   major="$(git auto version show major)"
   minor="$(git auto version show minor)"
   build="$(git auto version show build)"
