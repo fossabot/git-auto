@@ -38,6 +38,7 @@ usage() {
   echo "  feature: start, finish, or publish feature branch"
   echo "  init:    initialize repository to be compatible with git auto"
   echo "  patch:   start, finish, or publish patch on existing release"
+  echo "  prune:   remove stray merged branches within the repository"
   echo "  test:    run or show status of tests"
   echo "  version: manually manage release versions"
   echo ""
