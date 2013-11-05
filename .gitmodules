@@ -1,3 +1,6 @@
 [submodule "lib/swiss.sh"]
 	path = lib/swiss.sh
 	url = git@github.com:mraxilus/swiss.sh.git
+[submodule "lib/shyaml"]
+	path = lib/shyaml
+	url = https://github.com/0k/shyaml.git
