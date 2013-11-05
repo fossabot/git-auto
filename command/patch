@@ -25,23 +25,23 @@ patch_finish() {
   #   $1: name of the patch branch to finish
   # returns: 
   #   none
-  local branch="$(git branch \
-    | sed -n "s/.*\(patch\/.*\)/\1/p" \
-    | sed -r "s:\x1B\[[0-9;]*[mK]::g" )"
-  local version="$(echo ${branch} | sed "s/patch\///")"
+  if [[ $# -ne 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  local branch="patch/${1}"
+  local message="finish ${branch}"
 
   # TODO(mraxilus): run all tests on patch branch before patching
 
-  # merge into release
+  # merge patch into release
   git checkout release
-  git merge --no-ff "${branch}" -m "apply patch/${version}"
+  git merge --no-ff "${branch}" -m "${message}"
+  git auto version bump minor "${message}"
 
-  git auto version bump minor "apply patch to release"
-
-  # merge into master
+  # merge release into master
   git checkout master
-  git merge --no-ff "${branch}" -m "apply patch/${version}"
-  #git branch -d "${branch}"
+  git merge --no-ff "${branch}" -m "${message}"
 }
 
 patch_publish() {
@@ -54,13 +54,14 @@ patch_start() {
   # globals:
   #   none
   # arguments:
-  #   none
+  #   $1: name of patch branch to create
   # returns: 
   #   none
-  local major="$(git auto version show major)"
-  local minor="$(git auto version show minor)"
-  local version="${major}.$((${minor} + 1)).0"
-  git checkout -qb "patch/${version}" release
+  if [[ $# -ne 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git checkout -qb "patch/${1}" release
 }
 
 patch_usage() {
