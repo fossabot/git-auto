@@ -11,14 +11,16 @@ init_main() {
   # returns:
   #   none
   git init 
-  touch git-auto.yaml
-  git add git-auto.yaml
-  git commit -m "initialize repository"
+  if ! git rev-parse HEAD &> /dev/null; then
+    touch git-auto.yaml
+    git add git-auto.yaml
+    git commit -m "initialize repository"
 
-  # create branch for releases
-  git checkout -b release master
-  git tag -a "0.0.0" -m "initialize automatic versioning"
-  git checkout master
+    # create branch for releases
+    git checkout -b release master
+    git tag -a "0.0.0" -m "initialize automatic versioning"
+    git checkout master
+  fi
 
   # install git hooks
   for hook in "${GIT_AUTO_ROOT}/hook/*"; do
