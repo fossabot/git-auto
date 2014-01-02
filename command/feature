@@ -7,7 +7,7 @@ feature_main() {
   # globals:
   #   none
   # arguments:
-  #   $1: name of the feature function excluding the preceeding "feature_"
+  #   $1: name of the feature function excluding the preceding "feature_"
   # returns:
   #   none
   if ! declare -f -F "feature_${1}" > /dev/null; then

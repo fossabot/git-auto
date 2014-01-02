@@ -32,7 +32,7 @@ patch_finish() {
   local branch="patch/${1}"
   local message="finish ${branch}"
 
-  # TODO(mraxilus): run all tests on patch branch before patching
+  git auto test run || exit 1
 
   # merge patch into release
   git checkout release
