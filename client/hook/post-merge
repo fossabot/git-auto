@@ -2,7 +2,6 @@
 #
 # TODO(mraxilus): document header
 
-if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
-  exit 0
+if [[ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]]; then
+  git auto prune
 fi
-git auto prune

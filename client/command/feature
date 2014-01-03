@@ -32,7 +32,6 @@ feature_finish() {
   local branch="feature/$1"
   git checkout master
   git merge --no-ff "${branch}" -m "finish ${branch}"
-  #git push origin ":${branch}"
 }
 
 feature_pull() {

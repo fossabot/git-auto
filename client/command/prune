@@ -3,7 +3,7 @@
 # prune
 
 prune_main() {
-  # remove all merged branches which aren't release or master
+  # remove all merged local and remote branches which aren't release or master.
   # globals:
   #   none
   # arguments:
@@ -11,7 +11,7 @@ prune_main() {
   # returns:
   #   none
   git branch --no-color --merged \
-    | grep -v "master\|release" \
+    | grep -v "master" \
     | xargs git branch -d
   git branch --no-color -r --merged \
     | grep -v "master\|release" \

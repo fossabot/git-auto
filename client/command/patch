@@ -30,23 +30,48 @@ patch_finish() {
     exit 1
   fi
   local branch="patch/${1}"
-  local message="finish ${branch}"
-
-  git auto test run || exit 1
-
-  # merge patch into release
-  git checkout release
-  git merge --no-ff "${branch}" -m "${message}"
-  git auto version bump minor "${message}"
-
-  # merge release into master
+  git checkout -b release origin/release
+  git merge --no-ff "${branch}" -m "finish ${branch}"
   git checkout master
-  git merge --no-ff "${branch}" -m "${message}"
+  git merge --no-ff "${branch}" -m "finish ${branch}"
 }
 
-patch_publish() {
-  # TODO(mraxilus): implement patch publishing
-  echo "patch_publish unimplemented"
+patch_pull() {
+  # pull local patch branch from remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to pull
+  #   $2: optional name of remote repository to pull from
+  # returns: 
+  #   none
+  local branch="patch/${1}"
+  local remote="${2:-origin}"
+  if [[ ${#} < 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git checkout "${branch}"
+  git pull "${remote}" "${branch}"
+}
+
+patch_push() {
+  # push local patch branch to remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to push
+  #   $2: optional name of remote repository to push to
+  # returns: 
+  #   none
+  local branch="patch/${1}"
+  local remote="${2:-origin}"
+  if [[ ${#} < 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git checkout "${branch}"
+  git push "${remote}" "${branch}"
 }
 
 patch_start() {
@@ -61,7 +86,8 @@ patch_start() {
     patch_usage
     exit 1
   fi
-  git checkout -qb "patch/${1}" release
+  git fetch origin
+  git checkout -qb "patch/${1}" origin/release
 }
 
 patch_usage() {
@@ -75,10 +101,11 @@ patch_usage() {
   echo "usage: git auto patch <command> <arg>"
   echo ""
   echo "where available options for <command> are:"
-  echo "  finish:  merge patch branch named <arg> into master, delete it, and"
-  echo "           create a new minor release"
-  echo "  publish: push patch branch named <arg> to origin"
-  echo "  start:   create new patch branch named <arg>"
+  echo "  finish:  merge patch branch named <arg> into master and release,"
+  echo "             delete it,"
+  echo "             and create a new minor release."
+  echo "  publish: push patch branch named <arg> to origin."
+  echo "  start:   create new patch branch named <arg>."
   echo ""
-  echo "for more command details run 'git auto <command> help'"
+  echo "for more command details run 'git auto <command> help'."
 }
