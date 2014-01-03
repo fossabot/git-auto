@@ -1,0 +1,25 @@
+#! /bin/bash
+#
+# init
+
+init_main() {
+  # initialize a git auto repository by setting up files, tags, and hooks
+  # globals:
+  #   GIT_AUTO_ROOT
+  # arguments:
+  #   none
+  # returns:
+  #   none
+  git init 
+  if ! git rev-parse HEAD &> /dev/null; then  # check if no commits exist.
+    git commit --allow-empty --message="initialize repository with git auto"
+    git tag -a "0.0.0" -m "prepare for automatic versioning"
+    git push origin master:master --follow-tags
+    git push origin master:release --follow-tags
+  fi
+
+  # install git hooks
+  for hook in "${GIT_AUTO_ROOT}/hook/*"; do
+    rsync ${hook} .git/hooks
+  done
+}

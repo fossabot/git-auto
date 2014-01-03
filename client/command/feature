@@ -32,12 +32,24 @@ feature_finish() {
   local branch="feature/$1"
   git checkout master
   git merge --no-ff "$branch" -m "finish ${branch}"
-  # branch removed by post-commit/merge cleanup
 }
 
 feature_publish() {
-  # TODO(mraxilus}: implement feature publishing
-  echo "feature_publish unimplemented"
+  # push local feature branch to remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the feature branch to finish
+  #   $2: optional name of remote repository to push to
+  # returns: 
+  #   none
+  local branch="feature/${1}"
+  local remote="${2:origin}"
+  if [[ ${#} < 1 ]]; then
+    feature_usage
+    exit 1
+  fi
+  git push "${remote}" "${branch}:${branch}"
 }
 
 feature_start() {
