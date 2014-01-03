@@ -1,3 +1,3 @@
-[submodule "swiss.sh"]
-  path = client/lib/swiss.sh
-  url = git@github.com:mraxilus/swiss.sh.git
+[submodule "client/lib/swiss.sh"]
+	path = client/lib/swiss.sh
+	url = git@github.com:mraxilus/swiss.sh.git
