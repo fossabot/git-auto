@@ -31,25 +31,46 @@ feature_finish() {
   fi
   local branch="feature/$1"
   git checkout master
-  git merge --no-ff "$branch" -m "finish ${branch}"
+  git merge --no-ff "${branch}" -m "finish ${branch}"
+  #git push origin ":${branch}"
 }
 
-feature_publish() {
-  # push local feature branch to remote repository
+feature_pull() {
+  # pull local feature branch from remote repository
   # globals:
   #   none
   # arguments:
-  #   $1: name of the feature branch to finish
-  #   $2: optional name of remote repository to push to
+  #   $1: name of the feature branch to pull
+  #   $2: optional name of remote repository to pull from
   # returns: 
   #   none
   local branch="feature/${1}"
-  local remote="${2:origin}"
+  local remote="${2:-origin}"
   if [[ ${#} < 1 ]]; then
     feature_usage
     exit 1
   fi
-  git push "${remote}" "${branch}:${branch}"
+  git checkout "${branch}"
+  git pull "${remote}" "${branch}"
+}
+
+feature_push() {
+  # push local feature branch to remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the feature branch to push
+  #   $2: optional name of remote repository to push to
+  # returns: 
+  #   none
+  local branch="feature/${1}"
+  local remote="${2:-origin}"
+  if [[ ${#} < 1 ]]; then
+    feature_usage
+    exit 1
+  fi
+  git checkout "${branch}"
+  git push "${remote}" "${branch}"
 }
 
 feature_start() {
@@ -74,9 +95,10 @@ feature_usage() {
   echo "usage: git auto feature <command> <arg>"
   echo ""
   echo "where available options for <command> are:"
-  echo "  finish:  merge feature branch named <arg> into master and delete it"
-  echo "  publish: push feature branch named <arg> to origin"
-  echo "  start:   create new feature branch named <arg>"
+  echo "  finish: merge feature branch named <arg> into master and delete it"
+  echo "  pull:   pull feature branch named <arg> from origin"
+  echo "  push:   push feature branch named <arg> to origin"
+  echo "  start:  create new feature branch named <arg>"
   echo ""
   echo "for more command details run 'git auto <command>'"
 }

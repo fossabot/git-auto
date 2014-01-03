@@ -10,8 +10,11 @@ prune_main() {
   #   none
   # returns:
   #   none
-  git branch --merged \
+  git branch --no-color --merged \
     | grep -v "master\|release" \
-    | sed -r "s:\x1B\[[0-9;]*[mK]::g" \
     | xargs git branch -d
+  git branch --no-color -r --merged \
+    | grep -v "master\|release" \
+    | sed -r "s:^.*origin/::g" \
+    | xargs -I branch git push origin :branch
 }
