@@ -30,8 +30,16 @@ patch_finish() {
     exit 1
   fi
   local branch="patch/${1}"
+
+  # merge into release
+  git fetch origin
   git checkout -b release origin/release
   git merge --no-ff "${branch}" -m "finish ${branch}"
+  git push origin release
+  git branch -d release
+  git auto version bump minor
+
+  # merge into master
   git checkout master
   git merge --no-ff "${branch}" -m "finish ${branch}"
 }
