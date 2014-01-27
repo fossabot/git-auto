@@ -10,6 +10,8 @@ prune_main() {
   #   none
   # returns:
   #   none
+  # TODO(mraxilus): create server version of prune which checks and performs 
+  #                 upon received push.
   git branch --no-color --merged \
     | grep -v "master" \
     | xargs git branch -d

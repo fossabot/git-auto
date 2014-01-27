@@ -3,11 +3,11 @@
 # go to http://opensource.org/licenses/mit for full details.
 
 feature_main() {
-  # delegate arguments to the proper feature function
+  # delegate arguments to the proper feature function.
   # globals:
   #   none
   # arguments:
-  #   $1: name of the feature function excluding the preceding "feature_"
+  #   $1: name of the feature function excluding the preceding "feature_".
   # returns:
   #   none
   if ! declare -f -F "feature_${1}" > /dev/null; then
@@ -18,18 +18,27 @@ feature_main() {
 }
 
 feature_finish() {
-  # merge completed feature branch into master
+  # merge completed feature branch into master ensuring up-to-date with remote.
   # globals:
   #   none
   # arguments:
-  #   $1: name of the feature branch to finish
+  #   $1: name of the feature branch to finish.
+  #   $2: optional name of remote repository to pull from.
   # returns: 
   #   none
   if [[ ${#} < 1 ]]; then
     feature_usage
     exit 1
   fi
-  local branch="feature/$1"
+  local branch="feature/${1}"
+  local remote="${2:-origin}"
+
+  # ensure local branch is up-to-date with remote before finish.
+  if git ls-remote "${remote}" | grep "refs/heads/${branch}"; then
+    feature_pull "${1}"
+    feature_push "${1}"
+  fi
+
   git checkout master
   git merge --no-ff "${branch}" -m "finish ${branch}"
 }
@@ -49,6 +58,7 @@ feature_pull() {
     feature_usage
     exit 1
   fi
+  git fetch "${remote}"
   git checkout "${branch}"
   git pull "${remote}" "${branch}"
 }

@@ -11,6 +11,7 @@ init_main() {
   # returns:
   #   none
   git init 
+  # TODO(mraxilus): allow for initialization of existing repository
   if ! git rev-parse HEAD &> /dev/null; then  # check if no commits exist.
     git commit --allow-empty --message="initialize repository with git auto"
     git tag -a "0.0.0" -m "prepare for automatic versioning"
