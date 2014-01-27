@@ -1,6 +1,6 @@
 #! /bin/bash
-#
-# init
+# this file is part of git-auto which is released under the mit license.
+# go to http://opensource.org/licenses/mit for full details.
 
 init_main() {
   # initialize a git auto repository by setting up files, tags, and hooks
