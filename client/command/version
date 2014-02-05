@@ -7,7 +7,7 @@ version_main() {
   # globals:
   #   none
   # arguments:
-  #   $1: name of the version function excluding the preceeding "version_"
+  #   $1: name of the version function excluding the preceding "version_"
   #   $@: arguments to be provided to delegated version function
   # returns:
   #   none
@@ -42,8 +42,10 @@ version_bump() {
   esac
 
   # add new tag to current release
-  git checkout release
+  git checkout release 
+  git pull origin release --tags
   git tag --annotate "${version}" --message="${2:-bump ${1} version manually}"
+  git push origin release --follow-tags
 }
 
 version_show() {
@@ -51,7 +53,7 @@ version_show() {
   # globals:
   #   none
   # arguments:
-  #   $1: print out only paticular part of version number (major, minor, build)
+  #   $1: print out only particular part of version number (major, minor, build)
   # returns:
   #   none
   local release=$(git tag --list | grep "[0-9]\+\.[0-9]\+\.[0-9]\+" \
