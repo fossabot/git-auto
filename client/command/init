@@ -11,12 +11,15 @@ init_main() {
   # returns:
   #   none
   git init 
-  # TODO(mraxilus): allow for initialization of existing repository
-  if ! git rev-parse HEAD &> /dev/null; then  # check if no commits exist.
+  # initialize repository if new or no initial version exists.
+  if ! git rev-parse HEAD &> /dev/null ||\
+     ! git tag -l | grep 0.0.0 &> /dev/null; then 
+    git checkout master || true
     git commit --allow-empty --message="initialize repository with git auto"
     git tag -a "0.0.0" -m "prepare for automatic versioning"
-    git push origin master:master --follow-tags
-    git push origin master:release --follow-tags
+    git push --set-upstream origin master --follow-tags
+    git checkout -b release master
+    git push --set-upstream origin release --follow-tags
   fi
 
   # install git hooks
