@@ -7,20 +7,26 @@ init_main() {
   # globals:
   #   GIT_AUTO_ROOT
   # arguments:
-  #   none
+  #   $1: remote repository to use for pushing local changes.
   # returns:
   #   none
+  local remote="${1-:origin}"
   git init 
-  # initialize repository if new or no initial version exists.
-  if ! git rev-parse HEAD &> /dev/null ||\
-     ! git tag -l | grep 0.0.0 &> /dev/null; then 
-    git checkout master || true
+  if ! git rev-parse HEAD &> /dev/null; then  # new repository
     git commit --allow-empty --message="initialize repository with git auto"
     git tag -a "0.0.0" -m "prepare for automatic versioning"
-    git push --set-upstream origin master --follow-tags
     git checkout -b release master
-    git push --set-upstream origin release --follow-tags
+  elif ! git tag -l | grep 0.0.0 &> /dev/null; then  # existing repository
+    git checkout master
+    git commit --allow-empty --message="start using  git auto"
+    git tag -a "0.0.0" -m "prepare for automatic versioning"
+    git checkout -b release master
+    if git remote show "${remote}" &> /dev/null; then  # remote exists
+      git push --set-upstream origin master:master --follow-tags
+      git push --set-upstream origin release:release --follow-tags
+    fi
   fi
+  git checkout master
 
   # install git hooks
   for hook in "${GIT_AUTO_ROOT}/hook/*"; do

@@ -21,7 +21,7 @@ main() {
   setup
 
   # run tests
-  assert "git auto usage" "git auto" "usage: git auto <command>
+  assert "git auto init main" "git auto" "usage: git auto <command>
 
 where available options for <command> are:
   feature: start, finish, or publish feature branch
