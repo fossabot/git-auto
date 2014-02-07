@@ -7,7 +7,7 @@ set -o errexit
 
 GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 
-source "${GIT_AUTO_ROOT}/lib/swiss.sh/swiss.sh"
+source "${GIT_AUTO_ROOT}/../common/lib/swiss.sh/swiss.sh"
 
 main() {
   # delegate arguments to the proper command script.
@@ -17,8 +17,8 @@ main() {
   #   $1: git auto command to be run
   # returns:
   #   none
-  local command="${1}"
-  local command_path="${GIT_AUTO_ROOT}/command/${1}"
+  local command="${1-:usage}"
+  local command_path="${GIT_AUTO_ROOT}/command/${command}"
   if [[ ! -f "${command_path}" ]]; then
     usage
     exit 1
