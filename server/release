@@ -1,6 +1,6 @@
 #! /bin/bash
-#
-# release
+# this file is part of git-auto which is released under the mit license.
+# go to http://opensource.org/licenses/mit for full details.
 
 release_main() {
   # create a new release from master branch, incrementing build number

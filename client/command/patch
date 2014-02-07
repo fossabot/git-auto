@@ -1,0 +1,132 @@
+#! /bin/bash
+# this file is part of git-auto which is released under the mit license.
+# go to http://opensource.org/licenses/mit for full details.
+
+patch_main() {
+  # delegate arguments to the proper patch function
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch function excluding the preceeding "patch_"
+  # returns:
+  #   none
+  if ! declare -f -F "patch_${1}" > /dev/null; then
+    patch_usage
+    exit 1
+  fi
+  patch_${1} "${@:2}"
+}
+
+patch_finish() {
+  # merge completed patch branch into release and master
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to finish
+  #   $2: optional name of remote repository to pull from
+  # returns: 
+  #   none
+  if [[ $# -ne 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  local branch="patch/${1}"
+  local remote="${2:-origin}"
+
+  # ensure local branch is up-to-date with remote before finish.
+  if git ls-remote "${remote}" | grep "refs/heads/${branch}"; then
+    patch_pull "${1}" "${remote}"
+    patch_push "${1}" "${remote}"
+  fi
+
+  # merge into release
+  git checkout release 
+  git pull "${remote}" release --tags
+  git merge --no-ff "${branch}" -m "finish ${branch}"
+
+  # merge into master
+  git checkout master
+  git pull "${remote}" master --tags
+  git merge --no-ff "${branch}" -m "finish ${branch}"
+
+  # update remote
+  git checkout release
+  git push "${remote}" release --follow-tags
+  git checkout master
+  git push "${remote}" master --follow-tags
+  git auto version bump minor
+}
+
+patch_pull() {
+  # pull local patch branch from remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to pull
+  #   $2: optional name of remote repository to pull from
+  # returns: 
+  #   none
+  local branch="patch/${1}"
+  local remote="${2:-origin}"
+  if [[ ${#} < 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git checkout "${branch}"
+  git pull "${remote}" "${branch}"
+}
+
+patch_push() {
+  # push local patch branch to remote repository
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of the patch branch to push
+  #   $2: optional name of remote repository to push to
+  # returns: 
+  #   none
+  local branch="patch/${1}"
+  local remote="${2:-origin}"
+  if [[ ${#} < 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git checkout "${branch}"
+  git push "${remote}" "${branch}"
+}
+
+patch_start() {
+  # create new patch branch based off of head of release
+  # globals:
+  #   none
+  # arguments:
+  #   $1: name of patch branch to create
+  # returns: 
+  #   none
+  if [[ $# -ne 1 ]]; then
+    patch_usage
+    exit 1
+  fi
+  git fetch origin
+  git checkout -qb "patch/${1}" origin/release
+}
+
+patch_usage() {
+  # print out the usage instructions for git auto patch
+  # globals:
+  #   none
+  # arguments:
+  #   none
+  # returns:
+  #   none
+  echo "usage: git auto patch <command> <arg>"
+  echo ""
+  echo "where available options for <command> are:"
+  echo "  finish:  merge patch branch named <arg> into master and release,"
+  echo "             delete it,"
+  echo "             and create a new minor release."
+  echo "  publish: push patch branch named <arg> to origin."
+  echo "  start:   create new patch branch named <arg>."
+  echo ""
+  echo "for more command details run 'git auto <command> help'."
+}
