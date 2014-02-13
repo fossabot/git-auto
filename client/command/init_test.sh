@@ -3,13 +3,13 @@
 # go to http://opensource.org/licenses/mit for full details.
 
 #set -o nounset
-#set -o errexit
+set -o errexit
 
-RUN_ROOT=$(pwd)
-TEST_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
-HOOKS_ROOT="${TEST_ROOT}/../hook"
-source "${TEST_ROOT}/../../common/lib/swiss.sh/swiss.sh"
-export PATH=${PATH}:${TEST_ROOT}/..
+ROOT_RUN=$(pwd)
+ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
+ROOT_HOOKS="${ROOT_TEST}/../hook"
+source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
+export PATH=${PATH}:${ROOT_TEST}/..
 
 main() {
   # test suite which verifies that the feature command functions correctly.
@@ -21,6 +21,7 @@ main() {
   #   none
   git_auto_init_installs_hooks
   git_auto_init_initialises_new_repository
+  git_auto_init_initialises_existing_repository
 }
 
 git_auto_init_installs_hooks() {
@@ -28,7 +29,7 @@ git_auto_init_installs_hooks() {
   git auto init &> /dev/null
   assert "init_main() installs hooks" \
          "ls .git/hooks/ | sed '/.*sample$/d'" \
-         "$(ls ${HOOKS_ROOT}/)"
+         "$(ls ${ROOT_HOOKS}/)"
   cleanup
 }
 
@@ -44,12 +45,29 @@ git_auto_init_initialises_new_repository() {
   cleanup
 }
 
+git_auto_init_initialises_existing_repository() {
+  setup
+  git init &> /dev/null
+  git commit --allow-empty --message="this repository exists" &> /dev/null
+  git auto init &> /dev/null
+  assert "init_main() initialise existing repository with version" \
+         "git describe HEAD" \
+         "0.0.0"
+  assert "init_main() initialise existing repository with branches" \
+         "git branch --no-color --contains HEAD" \
+         "* master"$'\n'"  release"  # force newline
+  cleanup
+}
+
 setup() {
-  cd "$(mktemp -d)"
+  ROOT_TMP="$(mktemp -d)"
+  cd "${ROOT_TMP}"
+  trap cleanup EXIT
 }
 
 cleanup() {
-  cd "${RUN_ROOT}"
+  cd "${ROOT_RUN}"
+  rm -rf "${ROOT_TMP}"
 }
 
 assert() {
