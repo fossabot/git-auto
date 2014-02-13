@@ -35,7 +35,12 @@ git_auto_init_installs_hooks() {
 git_auto_init_initialises_new_repository() {
   setup
   git auto init &> /dev/null
-  #assert "init_main() initialise new repository" \
+  assert "init_main() initialise new repository with version" \
+         "git describe HEAD" \
+         "0.0.0"
+  assert "init_main() initialise new repository with branches" \
+         "git branch --no-color --contains HEAD" \
+         "* master"$'\n'"  release"  # force newline
   cleanup
 }
 
