@@ -21,9 +21,9 @@ init_main() {
     git commit --allow-empty --message="start using  git auto"
     git tag -a "0.0.0" -m "prepare for automatic versioning"
     git checkout -b release master
-    if git remote show "${remote}" &> /dev/null; then  # remote exists
-      git push --set-upstream origin master:master --follow-tags
-      git push --set-upstream origin release:release --follow-tags
+    if git remote show "${remote}" &> /dev/null; then  # and remote exists
+      git push --set-upstream "${remote}" master:master --follow-tags
+      git push --set-upstream "${remote}" release:release --follow-tags
     fi
   fi
   git checkout master
