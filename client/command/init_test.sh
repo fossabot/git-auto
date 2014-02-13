@@ -7,6 +7,7 @@
 
 RUN_ROOT=$(pwd)
 TEST_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
+HOOKS_ROOT="${TEST_ROOT}/../hook"
 source "${TEST_ROOT}/../../common/lib/swiss.sh/swiss.sh"
 export PATH=${PATH}:${TEST_ROOT}/..
 
@@ -18,21 +19,23 @@ main() {
   #   none
   # returns:
   #   none
+  git_auto_init_installs_hooks
+  git_auto_init_initialises_new_repository
+}
+
+git_auto_init_installs_hooks() {
   setup
+  git auto init &> /dev/null
+  assert "init_main() installs hooks" \
+         "ls .git/hooks/ | sed '/.*sample$/d'" \
+         "$(ls ${HOOKS_ROOT}/)"
+  cleanup
+}
 
-  # run tests
-  assert "git auto init main" "git auto" "usage: git auto <command>
-
-where available options for <command> are:
-  feature: start, finish, or publish feature branch
-  init:    initialize repository to be compatible with git auto
-  patch:   start, finish, or publish patch on existing release
-  prune:   remove stray merged branches within the repository
-  test:    run or show status of tests
-  version: manually manage release versions
-
-for more command details run 'git auto <command>'" "1"
-
+git_auto_init_initialises_new_repository() {
+  setup
+  git auto init &> /dev/null
+  #assert "init_main() initialise new repository" \
   cleanup
 }
 
