@@ -12,7 +12,7 @@ source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
 export PATH=${PATH}:${ROOT_TEST}/..
 
 main() {
-  # test suite which verifies that the feature command functions correctly.
+  # test suite which verifies that the init command functions correctly.
   # globals:
   #   none
   # arguments:
@@ -65,11 +65,6 @@ setup() {
   trap cleanup EXIT
 }
 
-cleanup() {
-  cd "${ROOT_RUN}"
-  rm -rf "${ROOT_TMP}"
-}
-
 assert() {
   # an alias for swiss::test::assert.
   # globals:
@@ -79,6 +74,11 @@ assert() {
   # returns:
   #   none
   swiss::test::assert "${@}"
+}
+
+cleanup() {
+  cd "${ROOT_RUN}"
+  rm -rf "${ROOT_TMP}"
 }
 
 main
