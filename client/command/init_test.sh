@@ -3,7 +3,7 @@
 # go to http://opensource.org/licenses/mit for full details.
 
 #set -o nounset
-#set -o errexit
+set -o errexit
 
 ROOT_RUN=$(pwd)
 ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
@@ -28,7 +28,7 @@ main() {
 
 git_auto_init_installs_hooks() {
   setup
-  git auto init &> /dev/null
+  run "git auto init"
   assert "init_main() installs hooks" \
          "ls .git/hooks/ | sed '/.*sample$/d'" \
          "$(ls ${ROOT_HOOKS}/)"
@@ -37,7 +37,7 @@ git_auto_init_installs_hooks() {
 
 git_auto_init_initialises_new_repository() {
   setup
-  git auto init &> /dev/null
+  run "git auto init"
   assert "init_main() initialise new repository with version" \
          "git describe HEAD" \
          "0.0.0"
@@ -49,9 +49,9 @@ git_auto_init_initialises_new_repository() {
 
 git_auto_init_initialises_existing_repository() {
   setup
-  git init &> /dev/null
-  git commit --allow-empty --message="this repository exists" &> /dev/null
-  git auto init &> /dev/null
+  run "git init" 
+  run "git commit --allow-empty --message='this repository exists'"
+  run "git auto init"
   assert "init_main() initialise existing repository with version" \
          "git describe HEAD" \
          "0.0.0"
@@ -77,15 +77,15 @@ git_auto_init_initialises_existing_repository_with_remote() {
   local remote=${1:-remote}
 
   # setup remote and local repository.
-  mkdir "${remote}.git"
-  cd "${remote}.git"
-  git init --bare &> /dev/null
-  cd ..
-  git clone "${remote}.git" local_repository &> /dev/null
-  cd local_repository
-  git commit --allow-empty --message="this repository exists" &> /dev/null
-  git remote rename origin "${remote}" &> /dev/null
-  git auto init ${remote} &> /dev/null
+  run "mkdir '${remote}.git'"
+  run "cd '${remote}.git'"
+  run "git init --bare"
+  run "cd .."
+  run "git clone '${remote}.git' local_repository"
+  run "cd local_repository"
+  run "git commit --allow-empty --message='this repository exists'" 
+  run "git remote rename origin '${remote}'"
+  run "git auto init ${remote}"
 
   # test local repository
   assert "init_main() initialise existing repository with ${remote} with local version" \
@@ -96,7 +96,7 @@ git_auto_init_initialises_existing_repository_with_remote() {
          "* master"$'\n'"  release"  # force newline
 
   # test origin
-  cd "../${remote}.git"
+  run "cd '../${remote}.git'"
   assert "init_main() initialise existing repository with ${remote} with remote version" \
          "git describe HEAD" \
          "0.0.0"
@@ -110,6 +110,10 @@ git_auto_init_initialises_existing_repository_with_remote() {
 setup() {
   ROOT_TMP="$(mktemp -d)"
   cd "${ROOT_TMP}"
+}
+
+run() {
+  eval "$@" &> /dev/null || true
 }
 
 assert() {
