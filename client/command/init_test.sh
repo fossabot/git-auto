@@ -23,7 +23,7 @@ main() {
   git_auto_init_initialises_new_repository
   git_auto_init_initialises_existing_repository
   git_auto_init_initialises_existing_repository_with_origin
-  # git_auto_init_initialises_existing_repository_with_remote
+  git_auto_init_initialises_existing_repository_with_remote
 }
 
 git_auto_init_installs_hooks() {
@@ -84,6 +84,40 @@ git_auto_init_initialises_existing_repository_with_origin() {
 
   # test origin
   cd ../origin.git
+  assert "init_main() initialise existing repository with origin with remote version" \
+         "git describe HEAD" \
+         "0.0.0"
+  assert "init_main() initialise existing repository with origin with remote branches" \
+         "git branch --no-color --contains HEAD" \
+         "* master"$'\n'"  release"  # force newline
+
+  cleanup
+}
+
+git_auto_init_initialises_existing_repository_with_remote() {
+  setup
+
+  # setup remote and local repository.
+  mkdir remote.git
+  cd remote.git
+  git init --bare &> /dev/null
+  cd ..
+  git clone remote.git local_repository &> /dev/null
+  cd local_repository
+  git commit --allow-empty --message="this repository exists" &> /dev/null
+  git remote rename origin remote
+  git auto init remote &> /dev/null
+
+  # test local repository
+  assert "init_main() initialise existing repository with origin with local version" \
+         "git describe HEAD" \
+         "0.0.0"
+  assert "init_main() initialise existing repository with origin with local branches" \
+         "git branch --no-color --contains HEAD" \
+         "* master"$'\n'"  release"  # force newline
+
+  # test origin
+  cd ../remote.git
   assert "init_main() initialise existing repository with origin with remote version" \
          "git describe HEAD" \
          "0.0.0"
