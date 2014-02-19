@@ -10,7 +10,7 @@ init_main() {
   #   $1: remote repository to use for pushing local changes.
   # returns:
   #   none
-  local remote="${1-:origin}"
+  local remote="${1:-origin}"
   git init 
   if ! git rev-parse HEAD &> /dev/null; then  # new repository
     git commit --allow-empty --message="initialize repository with git auto"
