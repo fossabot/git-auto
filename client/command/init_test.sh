@@ -62,66 +62,45 @@ git_auto_init_initialises_existing_repository() {
 }
 
 git_auto_init_initialises_existing_repository_with_origin() {
-  setup
-
-  # setup origin and local repository.
-  mkdir origin.git
-  cd origin.git
-  git init --bare &> /dev/null
-  cd ..
-  git clone origin.git local_repository &> /dev/null
-  cd local_repository
-  git commit --allow-empty --message="this repository exists" &> /dev/null
-  git auto init &> /dev/null
-
-  # test local repository
-  assert "init_main() initialise existing repository with origin with local version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise existing repository with origin with local branches" \
-         "git branch --no-color --contains HEAD" \
-         "* master"$'\n'"  release"  # force newline
-
-  # test origin
-  cd ../origin.git
-  assert "init_main() initialise existing repository with origin with remote version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise existing repository with origin with remote branches" \
-         "git branch --no-color --contains HEAD" \
-         "* master"$'\n'"  release"  # force newline
-
-  cleanup
+  git_auto_init_initialises_existing_repository_with_remote origin
 }
 
 git_auto_init_initialises_existing_repository_with_remote() {
+  # test for initialisation of existing repository with named remote.
+  # globals:
+  #   none
+  # arguments:
+  #   $1: remote name to use.
+  # returns:
+  #   none
   setup
+  local remote=${1:-remote}
 
   # setup remote and local repository.
-  mkdir remote.git
-  cd remote.git
+  mkdir "${remote}.git"
+  cd "${remote}.git"
   git init --bare &> /dev/null
   cd ..
-  git clone remote.git local_repository &> /dev/null
+  git clone "${remote}.git" local_repository &> /dev/null
   cd local_repository
   git commit --allow-empty --message="this repository exists" &> /dev/null
-  git remote rename origin remote
-  git auto init remote &> /dev/null
+  git remote rename origin "${remote}" &> /dev/null
+  git auto init ${remote} &> /dev/null
 
   # test local repository
-  assert "init_main() initialise existing repository with origin with local version" \
+  assert "init_main() initialise existing repository with ${remote} with local version" \
          "git describe HEAD" \
          "0.0.0"
-  assert "init_main() initialise existing repository with origin with local branches" \
+  assert "init_main() initialise existing repository with ${remote} with local branches" \
          "git branch --no-color --contains HEAD" \
          "* master"$'\n'"  release"  # force newline
 
   # test origin
-  cd ../remote.git
-  assert "init_main() initialise existing repository with origin with remote version" \
+  cd "../${remote}.git"
+  assert "init_main() initialise existing repository with ${remote} with remote version" \
          "git describe HEAD" \
          "0.0.0"
-  assert "init_main() initialise existing repository with origin with remote branches" \
+  assert "init_main() initialise existing repository with ${remote} with remote branches" \
          "git branch --no-color --contains HEAD" \
          "* master"$'\n'"  release"  # force newline
 
@@ -131,7 +110,6 @@ git_auto_init_initialises_existing_repository_with_remote() {
 setup() {
   ROOT_TMP="$(mktemp -d)"
   cd "${ROOT_TMP}"
-  trap cleanup EXIT
 }
 
 assert() {
@@ -139,7 +117,7 @@ assert() {
   # globals:
   #   none
   # arguments:
-  #   $@  same as swiss::test::assert, verbatim
+  #   $@: same as swiss::test::assert, verbatim
   # returns:
   #   none
   swiss::test::assert "${@}"
