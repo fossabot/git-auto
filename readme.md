@@ -58,8 +58,7 @@ now,
 
 ```sh
 chmod +x example_test.sh
-git add example_test.sh
-git add git-auto.yml
+git add example_test.sh git-auto.yml
 git commit --message="add example test"
 ```
 
@@ -76,7 +75,7 @@ and thus,
 
 documentation
 -------------
-for more information please consult the [wiki][5]
+for more information please consult the [wiki][5].
 
 license
 -------
