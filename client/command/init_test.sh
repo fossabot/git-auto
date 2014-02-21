@@ -5,11 +5,18 @@
 set -o nounset
 set -o errexit
 
-ROOT_RUN=$(pwd)
 ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 ROOT_HOOKS="${ROOT_TEST}/../hook"
 source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
 export PATH=${PATH}:${ROOT_TEST}/..  # make git auto runnable
+
+# setup library aliases
+assert()      { swiss::test::assert      "${@}"; }
+end_suite()   { swiss::test::end_suite   "${@}"; }
+end_test()    { swiss::test::end_test    "${@}"; }
+run()         { swiss::test::run         "${@}"; }
+start_suite() { swiss::test::start_suite "${@}"; }
+start_test()  { swiss::test::start_test  "${@}"; }
 
 main() {
   # test suite which verifies that the init command functions correctly.
@@ -19,46 +26,32 @@ main() {
   #   none
   # returns:
   #   none
-  git_auto_init_installs_hooks
-  git_auto_init_initialises_new_repository
-  git_auto_init_initialises_existing_repository
-  git_auto_init_initialises_existing_repository_with_origin
-  git_auto_init_initialises_existing_repository_with_remote
+  start_suite "git auto init"
+    run_test git_auto_init_installs_hooks
+    run_test git_auto_init_initialises_new_repository
+    run_test git_auto_init_initialises_existing_repository
+    run_test git_auto_init_initialises_existing_repository_with_origin
+    run_test git_auto_init_initialises_existing_repository_with_remote
+  end_suite
 }
 
 git_auto_init_installs_hooks() {
-  setup
   run "git auto init"
-  assert "init_main() installs hooks" \
-         "ls .git/hooks/ | sed '/.*sample$/d'" \
-         "$(ls ${ROOT_HOOKS}/)"
-  cleanup
+  assert "ls .git/hooks/ | sed '/.*sample$/d'" "$(ls ${ROOT_HOOKS}/)"
 }
 
 git_auto_init_initialises_new_repository() {
-  setup
   run "git auto init"
-  assert "init_main() initialise new repository with version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise new repository with branches" \
-         "git branch --no-color --contains HEAD" \
-         "* master"$'\n'"  release"  # force newline
-  cleanup
+  assert_version_valid
+  assert_branches_valid
 }
 
 git_auto_init_initialises_existing_repository() {
-  setup
   run "git init" 
   run "git commit --allow-empty --message='this repository exists'"
   run "git auto init"
-  assert "init_main() initialise existing repository with version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise existing repository with branches" \
-         "git branch --no-color --contains HEAD" \
-         "* master"$'\n'"  release"  # force newline
-  cleanup
+  assert_version_valid
+  assert_branches_valid
 }
 
 git_auto_init_initialises_existing_repository_with_origin() {
@@ -73,7 +66,6 @@ git_auto_init_initialises_existing_repository_with_remote() {
   #   $1: remote name to use.
   # returns:
   #   none
-  setup
   local remote=${1:-remote}
 
   # setup remote and local repository.
@@ -88,48 +80,29 @@ git_auto_init_initialises_existing_repository_with_remote() {
   run "git auto init ${remote}"
 
   # test local repository
-  assert "init_main() initialise existing repository with ${remote} with local version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise existing repository with ${remote} with local branches" \
-         "git branch --no-color --contains HEAD" \
-         "* master"$'\n'"  release"  # force newline
+  assert_version_valid
+  assert_branches_valid
 
   # test origin
   run "cd '../${remote}.git'"
-  assert "init_main() initialise existing repository with ${remote} with remote version" \
-         "git describe HEAD" \
-         "0.0.0"
-  assert "init_main() initialise existing repository with ${remote} with remote branches" \
-         "git branch --no-color --contains HEAD" \
+  assert_version_valid
+  assert_branches_valid
+}
+
+assert_version_valid() {
+  assert "git describe HEAD" "0.0.0"  # check if version is correct.
+}
+
+assert_branches_valid() {
+  assert "git branch --no-color --contains HEAD" \
          "* master"$'\n'"  release"  # force newline
-
-  cleanup
 }
 
-setup() {
-  ROOT_TMP="$(mktemp -d)"
-  cd "${ROOT_TMP}"
+run_test() {
+  swiss::test::start_test "${1}"
+  $1
+  swiss::test::end_test
 }
 
-run() {
-  eval "$@" &> /dev/null || true
-}
-
-assert() {
-  # an alias for swiss::test::assert.
-  # globals:
-  #   none
-  # arguments:
-  #   $@: same as swiss::test::assert, verbatim
-  # returns:
-  #   none
-  swiss::test::assert "${@}"
-}
-
-cleanup() {
-  cd "${ROOT_RUN}"
-  rm -rf "${ROOT_TMP}"
-}
 
 main
