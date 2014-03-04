@@ -15,6 +15,7 @@ assert()      { swiss::test::assert      "${@}"; }
 end_suite()   { swiss::test::end_suite   "${@}"; }
 end_test()    { swiss::test::end_test    "${@}"; }
 run()         { swiss::test::run         "${@}"; }
+run_test()    { swiss::test::test        "${@}"; }
 start_suite() { swiss::test::start_suite "${@}"; }
 start_test()  { swiss::test::start_test  "${@}"; }
 
@@ -97,12 +98,5 @@ assert_branches_valid() {
   assert "git branch --no-color --contains HEAD" \
          "* master"$'\n'"  release"  # force newline
 }
-
-run_test() {
-  swiss::test::start_test "${1}"
-  $1
-  swiss::test::end_test
-}
-
 
 main
