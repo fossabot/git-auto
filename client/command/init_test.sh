@@ -20,13 +20,6 @@ start_suite() { swiss::test::start_suite "${@}"; }
 start_test()  { swiss::test::start_test  "${@}"; }
 
 main() {
-  # test suite which verifies that the init command functions correctly.
-  # globals:
-  #   none
-  # arguments:
-  #   none
-  # returns:
-  #   none
   start_suite "git auto init"
     run_test git_auto_init_installs_hooks
     run_test git_auto_init_initialises_new_repository
@@ -91,10 +84,24 @@ git_auto_init_initialises_existing_repository_with_remote() {
 }
 
 assert_version_valid() {
+  # 
+  # globals:
+  #   none.
+  # arguments:
+  #   none.
+  # returns:
+  #   none.
   assert "git describe HEAD" "0.0.0"  # check if version is correct.
 }
 
 assert_branches_valid() {
+  # 
+  # globals:
+  #   none.
+  # arguments:
+  #   none.
+  # returns:
+  #   none.
   assert "git branch --no-color --contains HEAD" \
          "* master"$'\n'"  release"  # force newline
 }
