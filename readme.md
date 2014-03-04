@@ -1,4 +1,4 @@
-[git auto][1] [![build status][2]][3]
+[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![google analytics][6]][7]
 =============
 _an attempt to seemingly automate git project management_
 
@@ -67,19 +67,21 @@ and we've just successfully used git auto!
 i would suggest you check out the documentation to discover the true power of git auto.
 until next time...
 
-## purpose
-the idea of [git flow][4] is lovable,
+purpose
+-------
+the idea of [git flow][8] is lovable,
   however using it properly doesn't fit with the mantra of ultimate laziness.
 and thus,
   git auto was born!
 
 documentation
 -------------
-for more information please consult the [wiki][5].
+for more information please consult the [wiki][9].
 
 license
 -------
-copyright © mr axilus <a class="coinbase-button" data-code="c060c048abd9fe7b4f36021738451bed" data-button-style="donation_small" href="https://coinbase.com/checkouts/c060c048abd9fe7b4f36021738451bed">donate bitcoins</a><script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
+copyright © mr axilus.
+<a class="coinbase-button" data-code="c060c048abd9fe7b4f36021738451bed" data-button-style="donation_small" href="https://coinbase.com/checkouts/c060c048abd9fe7b4f36021738451bed">sponsor</a> with bitcoins.
 
 permission is hereby granted,
   free of charge,
@@ -110,8 +112,23 @@ in no event shall the authors or copyright holders be liable for any claim,
   arising from,
   out of or in connection with the software or the use or other dealings in the software.
 
-[1]: git-auto.projectaxil.us "git auto"
+<!-- extrenal project page -->
+[1]: {{github.project.url}} "{{github.project.name}}"
+
+<!-- travis -->
 [2]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
 [3]: https://secure.travis-ci.org/mraxilus/git-auto
-[4]: https://github.com/nvie/gitflow
-[5]: https://github.com/mraxilus/swiss.sh/wiki 
+
+<!-- gitter -->
+[4]: http://badges.gitter.im/{{github.username}}.png
+[5]: https://gitter.im/{{github.username}}/{{github.project.name}}
+
+<!-- google analytics -->
+[6]: https://ga-beacon.appspot.com/{{google.tracking_id}}/{{github.project.name}}/readme.md
+[7]: https://github.com/igrigorik/ga-beacon
+
+[8]: https://github.com/nvie/gitflow
+
+<!-- wiki -->
+[9]: https://github.com/{{github.username}}/{{github.project.name}}/wiki
+
