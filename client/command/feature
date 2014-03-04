@@ -83,14 +83,18 @@ feature_push() {
 }
 
 feature_start() {
-  # create new feature branch based off of head of master
+  # create new feature branch based off of head of master.
   # globals:
-  #   none
+  #   none.
   # arguments:
-  #   $1: name of the feature branch to create
+  #   $1: name of the feature branch to create.
+  #   $2: optional name of remote repository to track from.
   # returns: 
-  #   none
-  git checkout -b "feature/${1}" master
+  #   none.
+  local branch="feature/${1}"
+  local remote="${2:-origin}"
+  git checkout -b "${branch}" master
+  git branch --set-uptsream-to="${remote}/${branch}" "${branch}"
 }
 
 feature_usage() {
