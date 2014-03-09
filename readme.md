@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mraxilus/git-auto.png?label=ready&title=Ready)](https://waffle.io/mraxilus/git-auto)
 # [git auto][1] [![build status][2]][3]
 *an attempt to seemingly automate git project management*
 
