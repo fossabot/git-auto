@@ -1,4 +1,4 @@
-[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![google analytics][6]][7]
+[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![stories in ready][10]][11] [![google analytics][6]][7]
 =============
 _an attempt to seemingly automate git project management_
 
@@ -131,4 +131,8 @@ in no event shall the authors or copyright holders be liable for any claim,
 
 <!-- wiki -->
 [9]: https://github.com/{{github.username}}/{{github.project.name}}/wiki
+
+<!-- waffle.io -->
+[10]: https://badge.waffle.io/mraxilus/git-auto.png?label=ready&title=ready
+[11]: https://waffle.io/mraxilus/git-auto
 
