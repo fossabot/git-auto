@@ -2,57 +2,108 @@
 # this file is part of git-auto which is released under the mit license.
 # go to http://opensource.org/licenses/mit for full details.
 
-#set -o nounset
-#set -o errexit
+set -o nounset
+set -o errexit
 
-RUN_ROOT=$(pwd)
-TEST_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
-source "${TEST_ROOT}/../../common/lib/swiss.sh/swiss.sh"
-export PATH=${PATH}:${TEST_ROOT}/..
+ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
+ROOT_HOOKS="${ROOT_TEST}/../hook"
+source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
+export PATH=${PATH}:${ROOT_TEST}/..  # make git auto runnable
+
+# setup library aliases
+assert()      { swiss::test::assert      "${@}"; }
+end_suite()   { swiss::test::end_suite   "${@}"; }
+end_test()    { swiss::test::end_test    "${@}"; }
+run()         { swiss::test::run         "${@}"; }
+run_test()    { swiss::test::test        "${@}"; }
+start_suite() { swiss::test::start_suite "${@}"; }
+start_test()  { swiss::test::start_test  "${@}"; }
 
 main() {
-  # test suite which verifies that the feature command functions correctly.
+  start_suite "git auto init"
+    run_test git_auto_init_installs_hooks
+    run_test git_auto_init_initialises_new_repository
+    run_test git_auto_init_initialises_existing_repository
+    run_test git_auto_init_initialises_existing_repository_with_origin
+    run_test git_auto_init_initialises_existing_repository_with_remote
+  end_suite
+}
+
+git_auto_init_installs_hooks() {
+  run "git auto init"
+  assert "ls .git/hooks/ | sed '/.*sample$/d'" "$(ls ${ROOT_HOOKS}/)"
+}
+
+git_auto_init_initialises_new_repository() {
+  run "git auto init"
+  assert_version_valid
+  assert_branches_valid
+}
+
+git_auto_init_initialises_existing_repository() {
+  run "git init" 
+  run "git commit --allow-empty --message='this repository exists'"
+  run "git auto init"
+  assert_version_valid
+  assert_branches_valid
+}
+
+git_auto_init_initialises_existing_repository_with_origin() {
+  git_auto_init_initialises_existing_repository_with_remote origin
+}
+
+git_auto_init_initialises_existing_repository_with_remote() {
+  # test for initialisation of existing repository with named remote.
   # globals:
   #   none
   # arguments:
-  #   none
+  #   $1: remote name to use.
   # returns:
   #   none
-  setup
+  local remote=${1:-remote}
 
-  # run tests
-  assert "git auto usage" "git auto" "usage: git auto <command>
+  # setup remote and local repository.
+  run "mkdir '${remote}.git'"
+  run "cd '${remote}.git'"
+  run "git init --bare"
+  run "cd .."
+  run "git clone '${remote}.git' local_repository"
+  run "cd local_repository"
+  run "git commit --allow-empty --message='this repository exists'" 
+  run "git remote rename origin '${remote}'"
+  run "git auto init ${remote}"
 
-where available options for <command> are:
-  feature: start, finish, or publish feature branch
-  init:    initialize repository to be compatible with git auto
-  patch:   start, finish, or publish patch on existing release
-  prune:   remove stray merged branches within the repository
-  test:    run or show status of tests
-  version: manually manage release versions
+  # test local repository
+  assert_version_valid
+  assert_branches_valid
 
-for more command details run 'git auto <command>'" "1"
-
-  cleanup
+  # test origin
+  run "cd '../${remote}.git'"
+  assert_version_valid
+  assert_branches_valid
 }
 
-setup() {
-  cd "$(mktemp -d)"
-}
-
-cleanup() {
-  cd "${RUN_ROOT}"
-}
-
-assert() {
-  # an alias for swiss::test::assert.
+assert_version_valid() {
+  # 
   # globals:
-  #   none
+  #   none.
   # arguments:
-  #   $@  same as swiss::test::assert, verbatim
+  #   none.
   # returns:
-  #   none
-  swiss::test::assert "${@}"
+  #   none.
+  assert "git describe HEAD" "0.0.0"  # check if version is correct.
+}
+
+assert_branches_valid() {
+  # 
+  # globals:
+  #   none.
+  # arguments:
+  #   none.
+  # returns:
+  #   none.
+  assert "git branch --no-color --contains HEAD" \
+         "* master"$'\n'"  release"  # force newline
 }
 
 main

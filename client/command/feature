@@ -79,18 +79,18 @@ feature_push() {
     exit 1
   fi
   git checkout "${branch}"
-  git push "${remote}" "${branch}"
+  git push --set-upstream "${remote}" "${branch}"
 }
 
 feature_start() {
-  # create new feature branch based off of head of master
+  # create new feature branch based off of head of master.
   # globals:
-  #   none
+  #   none.
   # arguments:
-  #   $1: name of the feature branch to create
+  #   $1: name of the feature branch to create.
   # returns: 
-  #   none
-  git checkout -b "feature/${1}" master
+  #   none.
+  git checkout -b "${branch}" master
 }
 
 feature_usage() {
