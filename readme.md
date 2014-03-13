@@ -1,6 +1,6 @@
-[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![stories in ready][10]][11] [![google analytics][6]][7]
+[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![waffle][6]][7]
 =============
-_an attempt to seemingly automate git project management_
+_an attempt to seemingly automate git project management._
 
 usage
 -----
@@ -81,7 +81,7 @@ for more information please consult the [wiki][9].
 license
 -------
 copyright © mr axilus.
-<a class="coinbase-button" data-code="c060c048abd9fe7b4f36021738451bed" data-button-style="donation_small" href="https://coinbase.com/checkouts/c060c048abd9fe7b4f36021738451bed">sponsor</a> with bitcoins.
+<a class="coinbase-button" data-code="9284d437b1c11d75e69bc54b2761c2ef" data-button-style="custom_small" href="https://coinbase.com/checkouts/9284d437b1c11d75e69bc54b2761c2ef">sponsor</a> with bitcoins.
 
 permission is hereby granted,
   free of charge,
@@ -112,27 +112,25 @@ in no event shall the authors or copyright holders be liable for any claim,
   arising from,
   out of or in connection with the software or the use or other dealings in the software.
 
-<!-- extrenal project page -->
+<!-- extrenal project page. -->
 [1]: {{github.project.url}} "{{github.project.name}}"
 
-<!-- travis -->
+<!-- travis, -->
 [2]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
 [3]: https://secure.travis-ci.org/mraxilus/git-auto
 
-<!-- gitter -->
-[4]: http://badges.gitter.im/{{github.username}}.png
-[5]: https://gitter.im/{{github.username}}/{{github.project.name}}
+<!-- gitter. -->
+[4]: http://badges.gitter.im/mraxilus/git-auto.png
+[5]: https://gitter.im/mraxilus/git-auto
 
-<!-- google analytics -->
-[6]: https://ga-beacon.appspot.com/{{google.tracking_id}}/{{github.project.name}}/readme.md
-[7]: https://github.com/igrigorik/ga-beacon
+<!-- waffle. -->
+[6]: https://badge.waffle.io/mraxilus/git-auto.png?label=ready&title=ready
+[7]: https://waffle.io/mraxilus/git-auto
 
 [8]: https://github.com/nvie/gitflow
 
-<!-- wiki -->
-[9]: https://github.com/{{github.username}}/{{github.project.name}}/wiki
+<!-- wiki. -->
+[9]: https://github.com/mraxilus/git-auto/wiki
 
-<!-- waffle.io -->
-[10]: https://badge.waffle.io/mraxilus/git-auto.png?label=ready&title=ready
-[11]: https://waffle.io/mraxilus/git-auto
+
 
