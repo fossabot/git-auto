@@ -1,6 +1,6 @@
 [git auto][1] [![build status][2]][3] [![gitter][4]][5] [![waffle][6]][7]
 =============
-_an attempt to seemingly automate git project management._
+_seemingly automated git project management._
 
 usage
 -----
