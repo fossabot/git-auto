@@ -1,4 +1,4 @@
-[git auto][1] [![build status][2]][3] [![gitter][4]][5] [![waffle][6]][7]
+[git auto][1] [![build status][2]][3]
 =============
 _seemingly automated git project management._
 
@@ -118,14 +118,6 @@ in no event shall the authors or copyright holders be liable for any claim,
 <!-- travis, -->
 [2]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
 [3]: https://secure.travis-ci.org/mraxilus/git-auto
-
-<!-- gitter. -->
-[4]: http://badges.gitter.im/mraxilus/git-auto.png
-[5]: https://gitter.im/mraxilus/git-auto
-
-<!-- waffle. -->
-[6]: https://badge.waffle.io/mraxilus/git-auto.png?label=ready&title=ready
-[7]: https://waffle.io/mraxilus/git-auto
 
 [8]: https://github.com/nvie/gitflow
 
