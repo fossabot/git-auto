@@ -52,7 +52,7 @@ Now, let's test it out by making a commit:
 ```sh
 chmod +x example_test.sh
 git add example_test.sh git-auto.yml
-git commit --message="add example test"
+git commit --message="Add example test"
 ```
 
 And we've just used Git auto!
