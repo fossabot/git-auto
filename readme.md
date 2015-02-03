@@ -1,10 +1,10 @@
 [Git Auto][linkedin] [![build status][travis_status]][travis_project]
 =============
-_Seemingly automated git project management._
+_Automating Git project management._
 
 Usage
 -----
-To use git auto, you must first install it (not working yet):
+To use Git auto, you must first install it (not working yet):
 
 ```sh
 git clone https://github.com/mraxilus/git-auto.git git-auto
@@ -22,7 +22,7 @@ git auto init
 Now you have git auto all setup!
 The only left to do is add tests. 
 Git auto will use them to automagically create releases on the release branch.
-In order to do this, you must create a script to act as your test:
+To do this, you must create a script to act as your test:
 
 ```sh
 echo "\
@@ -42,8 +42,8 @@ tests:
 ```
 
 Every time we make a commit, git auto will run our test.
-It will also create a new release on the release branch if the tests exited successfully.
-Git auto will also create a tag for each test, and update those tags to the last commit with which they passed individually.
+It will also create a new release on the release branch if the tests exited in a succesful manner.
+Git auto will also create a tag for each test, and update those tags to the last commit with which they passed on an individual basis.
 That way you know which commit started the failure of a particular set of tests.
 Git auto will only create a release if all tests pass on the latest commit.
 
@@ -55,15 +55,14 @@ git add example_test.sh git-auto.yml
 git commit --message="add example test"
 ```
 
-And we've just successfully used git auto!
+And we've just used git auto!
 \\(:D)/ ...but there's much more to git auto than that.
 I would suggest you check out the documentation (once it's arrives) to discover the true power of git auto.
 Until next time...
 
 Purpose
 -------
-The idea of [git flow][git_flow] is lovable, however using it properly doesn't fit with the mantra of ultimate laziness.
-And thus, git auto was born!
+The idea of [git flow][git_flow] is lovable, but using it doesn't fit with the mantra of automating everything.
 
 Documentation
 -------------
