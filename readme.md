@@ -11,7 +11,7 @@ git clone https://github.com/mraxilus/git-auto.git git-auto
 ./git-auto/install.sh
 ```
 
-You must then create a new directory, and initialise it as a git auto repository:
+You must then create a new directory, and initialise it as a Git auto repository:
 
 ```
 mkdir hello_git_auto
@@ -19,7 +19,7 @@ cd hello_git_auto
 git auto init
 ```
 
-Now you have git auto all setup!
+Now you have Git auto all setup!
 The only left to do is add tests. 
 Git auto will use them to automagically create releases on the release branch.
 To do this, you must create a script to act as your test:
@@ -32,7 +32,7 @@ exit 0
 " > example_test.sh
 ```
 
-Ignoring the fact that the test always passes, next you must register it with git auto by modifying the configuration file:
+Ignoring the fact that the test always passes, next you must register it with Git auto by modifying the configuration file:
 
 ```sh
 echo "\
@@ -41,7 +41,7 @@ tests:
 " > git-auto.yml
 ```
 
-Every time we make a commit, git auto will run our test.
+Every time we make a commit, Git auto will run our test.
 It will also create a new release on the release branch if the tests exited in a succesful manner.
 Git auto will also create a tag for each test, and update those tags to the last commit with which they passed on an individual basis.
 That way you know which commit started the failure of a particular set of tests.
@@ -55,14 +55,14 @@ git add example_test.sh git-auto.yml
 git commit --message="add example test"
 ```
 
-And we've just used git auto!
-\\(:D)/ ...but there's much more to git auto than that.
-I would suggest you check out the documentation (once it's arrives) to discover the true power of git auto.
+And we've just used Git auto!
+\\(:D)/ ...but there's much more to Git auto than that.
+I would suggest you check out the documentation (once it's arrives) to discover the true power of Git auto.
 Until next time...
 
 Purpose
 -------
-The idea of [git flow][git_flow] is lovable, but using it doesn't fit with the mantra of automating everything.
+The idea of [git-flow][git_flow] is lovable, but using it doesn't fit with the mantra of automating everything.
 
 Documentation
 -------------
