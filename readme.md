@@ -1,20 +1,17 @@
-[git auto][1] [![build status][2]][3]
+[Git Auto][linkedin] [![build status][travis_status]][travis_project]
 =============
-_seemingly automated git project management._
+_Seemingly automated git project management._
 
-usage
+Usage
 -----
-first, 
-  you must install it (not working yet):
+To use git auto, you must first install it (not working yet):
 
 ```sh
 git clone https://github.com/mraxilus/git-auto.git git-auto
 ./git-auto/install.sh
 ```
 
-next,
-  you should create a new directory,
-  and initialise it as a git auto repository:
+You must then create a new directory, and initialise it as a git auto repository:
 
 ```
 mkdir hello_git_auto
@@ -22,10 +19,10 @@ cd hello_git_auto
 git auto init
 ```
 
-now you have git auto all setup!
-the only left to do is add tests. 
-git auto will use them to automagically create releases on the release branch.
-in order to do this you must create a script to act as your test:
+Now you have git auto all setup!
+The only left to do is add tests. 
+Git auto will use them to automagically create releases on the release branch.
+In order to do this, you must create a script to act as your test:
 
 ```sh
 echo "\
@@ -35,8 +32,7 @@ exit 0
 " > example_test.sh
 ```
 
-ignoring the fact that the test always passes,
-next you must register it with git auto by modifying the configuration file:
+Ignoring the fact that the test always passes, next you must register it with git auto by modifying the configuration file:
 
 ```sh
 echo "\
@@ -45,16 +41,13 @@ tests:
 " > git-auto.yml
 ```
 
-every time we make a commit git auto will run our test.
-it will also create a new release on the release branch if the tests exited successfully.
-in addition,
-  it will also create a tag for each test,
-  and update those tags to the last commit with which they passed individually.
-that way you know which commit started the failure of a particular set of tests.
-git auto will only create a release if all tests pass on the latest commit.
+Every time we make a commit, git auto will run our test.
+It will also create a new release on the release branch if the tests exited successfully.
+Git auto will also create a tag for each test, and update those tags to the last commit with which they passed individually.
+That way you know which commit started the failure of a particular set of tests.
+Git auto will only create a release if all tests pass on the latest commit.
 
-now,
-  let's test it out by making a commit:
+Now, let's test it out by making a commit:
 
 ```sh
 chmod +x example_test.sh
@@ -62,67 +55,31 @@ git add example_test.sh git-auto.yml
 git commit --message="add example test"
 ```
 
-and we've just successfully used git auto!
+And we've just successfully used git auto!
 \\(:D)/ ...but there's much more to git auto than that.
-i would suggest you check out the documentation to discover the true power of git auto.
-until next time...
+I would suggest you check out the documentation (once it's arrives) to discover the true power of git auto.
+Until next time...
 
-purpose
+Purpose
 -------
-the idea of [git flow][8] is lovable,
-  however using it properly doesn't fit with the mantra of ultimate laziness.
-and thus,
-  git auto was born!
+The idea of [git flow][git_flow] is lovable, however using it properly doesn't fit with the mantra of ultimate laziness.
+And thus, git auto was born!
 
-documentation
+Documentation
 -------------
-for more information please consult the [wiki][9].
+For more information please consult the [wiki][wiki] (err... source code).
 
-license
+License
 -------
-copyright © mr axilus.
-<a class="coinbase-button" data-code="9284d437b1c11d75e69bc54b2761c2ef" data-button-style="custom_small" href="https://coinbase.com/checkouts/9284d437b1c11d75e69bc54b2761c2ef">sponsor</a> with bitcoins.
+Copyright © Mr Axilus.
+This project is licensed under [CC BY-NC-SA 4.0][license].
 
-permission is hereby granted,
-  free of charge,
-  to any person obtaining a copy of this software and associated documentation files (the "software"),
-  to deal in the software without restriction,
-  including without limitation the rights to use,
-  copy,
-  modify,
-  merge,
-  publish,
-  distribute,
-  sublicense,
-  and/or sell copies of the software,
-  and to permit persons to whom the software is furnished to do so,
-  subject to the following conditions:
-
-the above copyright notice and this permission notice shall be included in all copies or substantial portions of the software.
-
-the software is provided "as is",
-  without warranty of any kind,
-  express or implied,
-  including but not limited to the warranties of merchantability,
-  fitness for a particular purpose and noninfringement.
-in no event shall the authors or copyright holders be liable for any claim,
-  damages or other liability,
-  whether in an action of contract,
-  tort or otherwise,
-  arising from,
-  out of or in connection with the software or the use or other dealings in the software.
-
-<!-- extrenal project page. -->
-[1]: {{github.project.url}} "{{github.project.name}}"
-
-<!-- travis, -->
-[2]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
-[3]: https://secure.travis-ci.org/mraxilus/git-auto
-
-[8]: https://github.com/nvie/gitflow
-
-<!-- wiki. -->
-[9]: https://github.com/mraxilus/git-auto/wiki
+[linkedin]: https://www.linkedin.com/in/mraxilus
+[travis_status]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
+[travis_project]: https://secure.travis-ci.org/mraxilus/git-auto
+[git_flow]: https://github.com/nvie/gitflow
+[wiki]: https://github.com/mraxilus/git-auto/wiki
+[license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
 
