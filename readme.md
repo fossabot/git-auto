@@ -73,7 +73,7 @@ This project is licensed under [CC BY-NC-SA 4.0][license].
 [license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [linkedin]: https://www.linkedin.com/in/mraxilus
 [travis_status]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
-[travis_project]: https://secure.travis-ci.org/mraxilus/git-auto
+[travis_image]: https://secure.travis-ci.org/mraxilus/git-auto
 [version_badge]: https://badge.fury.io/gh/mraxilus%2Fgit-auto.svg 
 
 
