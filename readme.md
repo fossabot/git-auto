@@ -1,4 +1,4 @@
-[Git Auto][linkedin] [![build status][travis_status]][travis_project]
+[Git Auto][linkedin] ![GitHub version][version_badge] [![Build status][travis_image]][travis_status]
 =============
 _Automating Git project management._
 
@@ -64,21 +64,17 @@ Purpose
 -------
 The idea of [git-flow][git_flow] is lovable, but using it doesn't fit with the mantra of automating everything.
 
-Documentation
--------------
-For more information please consult the [wiki][wiki] (err... source code).
-
 License
 -------
 Copyright © Mr Axilus.
 This project is licensed under [CC BY-NC-SA 4.0][license].
 
+[git_flow]: https://github.com/nvie/gitflow
+[license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 [linkedin]: https://www.linkedin.com/in/mraxilus
 [travis_status]: https://secure.travis-ci.org/mraxilus/git-auto.png?branch=master
 [travis_project]: https://secure.travis-ci.org/mraxilus/git-auto
-[git_flow]: https://github.com/nvie/gitflow
-[wiki]: https://github.com/mraxilus/git-auto/wiki
-[license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[version_badge]: https://badge.fury.io/gh/mraxilus%2Fgit-auto.svg 
 
 
 
