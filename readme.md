@@ -1,5 +1,7 @@
-[Git Auto][linkedin] ![GitHub version][version_badge] [![Build status][travis_image]][travis_status]
+[Git Auto][linkedin]
 ====================
+![GitHub version][version_badge] [![Build status][travis_image]][travis_status]
+
 _Automating Git project management._
 
 Usage
