@@ -1,3 +1,4 @@
-[submodule "common/lib/swiss.sh"]
-	path = common/lib/swiss.sh
+[submodule "library/swiss.sh"]
+	path = library/swiss.sh
 	url = https://github.com/mraxilus/swiss.sh.git
+

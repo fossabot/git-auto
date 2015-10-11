@@ -78,5 +78,3 @@ This project is licensed under [CC BY-NC-SA 4.0][license].
 [travis_status]: https://secure.travis-ci.org/mraxilus/git-auto
 [version_badge]: https://badge.fury.io/gh/mraxilus%2Fgit-auto.svg 
 
-
-

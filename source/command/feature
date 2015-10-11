@@ -1,6 +1,4 @@
 #!/bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
 
 feature_main() {
   # delegate arguments to the proper feature function.
@@ -10,7 +8,7 @@ feature_main() {
   #   $1: name of the feature function excluding the preceding "feature_".
   # returns:
   #   none
-  if ! declare -f -F "feature_${1}" > /dev/null; then
+  if ! declare -f -F "feature_${1-:usage}" > /dev/null; then
     feature_usage
     exit 1
   fi
@@ -90,7 +88,7 @@ feature_start() {
   #   $1: name of the feature branch to create.
   # returns: 
   #   none.
-  git checkout -b "${branch}" master
+  git checkout -b "${1}" master
 }
 
 feature_usage() {
@@ -111,3 +109,4 @@ feature_usage() {
   echo ""
   echo "for more command details run 'git auto <command>'"
 }
+

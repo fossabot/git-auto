@@ -1,6 +1,4 @@
 #!/bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
 
 set -o nounset
 set -o errexit
@@ -19,20 +17,33 @@ start_suite() { swiss::test::start_suite "${@}"; }
 start_test()  { swiss::test::start_test  "${@}"; }
 
 main() {
-  start_suite "git auto version"
-    run_test git_auto_version_show
-    run_test git_auto_version_bump
+  start_suite "git auto feature"
+    run_test git_auto_feature_start
+    run_test git_auto_feature_push
+    run_test git_auto_feature_pull
+    run_test git_auto_feature_finish
   end_suite
 }
 
-git_auto_version_show() {
+git_auto_feature_start() {
   assert "echo invalid" "valid"
   return
 }
 
-git_auto_version_bump() {
+git_auto_feature_push() {
+  assert "echo invalid" "valid"
+  return
+}
+
+git_auto_feature_pull() {
+  assert "echo invalid" "valid"
+  return
+}
+
+git_auto_feature_finish() {
   assert "echo invalid" "valid"
   return
 }
 
 main
+

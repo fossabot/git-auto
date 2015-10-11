@@ -1,13 +1,11 @@
 #! /bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
 
 set -o nounset
 set -o errexit
 
 GIT_AUTO_ROOT=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 
-source "${GIT_AUTO_ROOT}/../common/lib/swiss.sh/swiss.sh"
+source "${GIT_AUTO_ROOT}/../library/swiss.sh/swiss.sh"
 
 main() {
   # delegate arguments to the proper command script.
@@ -49,3 +47,4 @@ usage() {
 }
 
 main "${@}"
+

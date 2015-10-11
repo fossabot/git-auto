@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [[ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]]; then
+  git auto prune
+fi
+

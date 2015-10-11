@@ -1,6 +1,4 @@
 #! /bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
 
 prune_main() {
   # remove all merged local and remote branches which aren't release or master.
@@ -17,3 +15,4 @@ prune_main() {
     | sed -r "s:^.*origin/::g" \
     | xargs -I name sh -c "git branch --delete name; git push origin :name"
 }
+

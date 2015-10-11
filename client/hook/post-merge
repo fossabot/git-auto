@@ -1,7 +1,0 @@
-#!/bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
-
-if [[ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]]; then
-  git auto prune
-fi

@@ -1,6 +1,4 @@
 #!/bin/bash
-# this file is part of git-auto which is released under the mit license.
-# go to http://opensource.org/licenses/mit for full details.
 
 version_main() {
   # delegate arguments to the proper version function
@@ -11,7 +9,7 @@ version_main() {
   #   $@: arguments to be provided to delegated version function
   # returns:
   #   none
-  if ! declare -f -F "version_${1}" > /dev/null; then
+  if ! declare -f -F "version_${1-:usage}" > /dev/null; then
       version_usage
       exit 1
   fi
@@ -90,3 +88,4 @@ version_usage() {
   echo ""
   echo "for more command details run 'git auto <command>'"
 }
+
