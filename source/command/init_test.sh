@@ -5,7 +5,7 @@ set -o errexit
 
 ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
 ROOT_HOOKS="${ROOT_TEST}/../hook"
-source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
+source "${ROOT_TEST}/../../library/swiss.sh/swiss.sh"
 export PATH=${PATH}:${ROOT_TEST}/..  # make git auto runnable
 
 # setup library aliases

@@ -4,7 +4,7 @@ set -o nounset
 set -o errexit
 
 ROOT_TEST=$(readlink -f "${BASH_SOURCE[0]}" | xargs dirname)
-source "${ROOT_TEST}/../../common/lib/swiss.sh/swiss.sh"
+source "${ROOT_TEST}/../../library/swiss.sh/swiss.sh"
 export PATH=${PATH}:${ROOT_TEST}/..  # make git auto runnable
 
 # setup library aliases
