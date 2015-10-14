@@ -88,7 +88,7 @@ feature_start() {
   #   $1: name of the feature branch to create.
   # returns: 
   #   none.
-  git checkout -b "${1}" master
+  git checkout -b "feature/${1}" master
 }
 
 feature_usage() {
