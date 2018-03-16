@@ -1,6 +1,7 @@
 [Git Auto][linkedin]
 ====================
 ![GitHub version][version_badge] [![Build status][travis_image]][travis_status]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmraxilus%2Fgit-auto.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmraxilus%2Fgit-auto?ref=badge_shield)
 
 _Automating Git project management._
 
@@ -78,3 +79,7 @@ This project is licensed under [CC BY-NC-SA 4.0][license].
 [travis_status]: https://secure.travis-ci.org/mraxilus/git-auto
 [version_badge]: https://badge.fury.io/gh/mraxilus%2Fgit-auto.svg 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmraxilus%2Fgit-auto.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmraxilus%2Fgit-auto?ref=badge_large)
